@@ -70,7 +70,8 @@
   gap: 5px;
 }
 
-.select, .input {
+.select,
+.input {
   background-color: #000;
   color: #0f0;
   border: 1px solid #333;
@@ -87,13 +88,17 @@
 }
 
 .nowBtn {
-  background-color: #222;
+  background-color: #111;
   color: #0f0;
   border: 1px solid #333;
   cursor: pointer;
-  font-family: inherit;
-  font-size: 10px;
-  padding: 0 10px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-radius: 4px;
 }
 
 .nowBtn:hover {
@@ -218,7 +223,9 @@
 }
 
 @keyframes blink {
-  50% { opacity: 0.5; }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @media (max-width: 768px) {

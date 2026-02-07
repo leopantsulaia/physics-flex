@@ -162,7 +162,7 @@ export const DecayClock = () => {
                   onChange={(e) => setElutionTime(e.target.value)}
                   className={styles.input}
                 />
-                <button onClick={setElutionToNow} className={styles.nowBtn}>NOW</button>
+                <button onClick={setElutionToNow} className={styles.nowBtn}><b>NOW</b></button>
               </div>
             </div>
             <div className={styles.controlItem}>
