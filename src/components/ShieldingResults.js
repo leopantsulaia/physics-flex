@@ -109,7 +109,7 @@ export const ShieldingResults = ({ results, distance }) => {
               <li><strong>Normal Background:</strong> ~0.0001 - 0.0002 mSv/hr</li>
               <li><strong>Public Limit (Unrestricted):</strong> &lt; 0.02 mSv/hr (2 mR/hr)</li>
               <li><strong>Occupational Limit:</strong> 20 mSv/year (Body) (not 50 mSv/year) </li>
-              <li><strong>Occupational Limit:</strong> 200 mSv/year (Hands) (not 50 mSv/year)</li>
+              <li><strong>Occupational Limit:</strong> 200 mSv/year (Hands) (not 500 mSv/year)</li>
 
             </ul>
             <p style={{ marginTop: '5px', fontSize: '0.9em' }}>
