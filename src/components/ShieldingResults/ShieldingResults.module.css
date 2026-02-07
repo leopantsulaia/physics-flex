@@ -1,0 +1,111 @@
+.resultsBox {
+  background-color: #fff;
+  border: 1px solid #bdc3c7;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+.heading {
+  margin: 0 0 15px 0;
+  color: #e74c3c;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.resultRow strong {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #bdc3c7;
+  margin: 15px 0;
+}
+
+.shieldingSection {
+  margin-top: 15px;
+}
+
+.subHeading {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.shieldingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.shieldingRow:last-child {
+  margin-bottom: 0;
+}
+
+.shieldingLabel {
+  width: 100px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #2c3e50;
+}
+
+.progressBarContainer {
+  flex-grow: 1;
+  background-color: #ecf0f1;
+  height: 20px;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  background-color: #2c3e50;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progressBarConcrete {
+  background-color: #95a5a6;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.shieldingValue {
+  width: 80px;
+  text-align: right;
+  font-weight: bold;
+  font-size: 13px;
+  color: #2c3e50;
+}
+
+@media (max-width: 480px) {
+  .resultsBox {
+    padding: 12px;
+  }
+
+  .shieldingRow {
+    gap: 8px;
+  }
+
+  .shieldingLabel {
+    width: 80px;
+    font-size: 12px;
+  }
+
+  .shieldingValue {
+    width: 70px;
+    font-size: 12px;
+  }
+}

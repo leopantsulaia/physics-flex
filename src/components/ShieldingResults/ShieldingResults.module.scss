@@ -1,0 +1,119 @@
+// ShieldingResults.module.scss
+$primary-color: #d32f2f;
+$border-color: #999;
+$background-white: #fff;
+$background-dark: #333;
+$background-concrete: #777;
+$text-color: #333;
+
+.resultsBox {
+  background-color: $background-white;
+  border: 1px solid $border-color;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+.heading {
+  margin: 0 0 15px 0;
+  color: $primary-color;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: $text-color;
+
+  strong {
+    font-weight: 600;
+    color: $text-color;
+  }
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid $border-color;
+  margin: 15px 0;
+}
+
+.shieldingSection {
+  margin-top: 15px;
+}
+
+.subHeading {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-color;
+}
+
+.shieldingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.shieldingLabel {
+  width: 100px;
+  font-weight: bold;
+  font-size: 13px;
+  color: $text-color;
+}
+
+.progressBarContainer {
+  flex-grow: 1;
+  background-color: #ddd;
+  height: 20px;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  background-color: $background-dark;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progressBarConcrete {
+  background-color: $background-concrete;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.shieldingValue {
+  width: 80px;
+  text-align: right;
+  font-weight: bold;
+  font-size: 13px;
+  color: $text-color;
+}
+
+@media (max-width: 480px) {
+  .resultsBox {
+    padding: 12px;
+  }
+
+  .shieldingRow {
+    gap: 8px;
+  }
+
+  .shieldingLabel {
+    width: 80px;
+    font-size: 12px;
+  }
+
+  .shieldingValue {
+    width: 70px;
+    font-size: 12px;
+  }
+}
