@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ShieldingControls } from "../ShieldingControls/ShieldingControls";
 import { ShieldingResults } from "../ShieldingResults/ShieldingResults";
 import { useShieldingCalculation } from "../../hooks/useShieldingCalculation";
-import { MCI_TO_MBQ } from "../../constants/isotopeData";
 import styles from "./ShieldingCalculator.module.css";
 
 export const ShieldingCalculator = () => {
@@ -25,28 +24,11 @@ export const ShieldingCalculator = () => {
       <h2 className={styles.title}>☢️ NucMed Shielding Optimizer</h2>
 
       <div className={styles.grid}>
-        {/* UNIT TOGGLE */}
-        <div className={styles.unitToggle}>
-          <label className={styles.unitLabel}>Unit:</label>
-          <select
-            value={unit}
-            onChange={(e) => {
-              const newUnit = e.target.value;
-              setInputValue((prev) =>
-                newUnit === "MBq" ? prev * MCI_TO_MBQ : prev / MCI_TO_MBQ,
-              );
-              setUnit(newUnit);
-            }}
-            className={styles.unitSelect}>
-            <option value="MBq">MBq (Megabecquerel)</option>
-            <option value="mCi">mCi (Millicurie)</option>
-          </select>
-        </div>
-
         <ShieldingControls
           isotope={isotope}
           setIsotope={setIsotope}
           unit={unit}
+          setUnit={setUnit}
           inputValue={inputValue}
           setInputValue={setInputValue}
           distance={distance}

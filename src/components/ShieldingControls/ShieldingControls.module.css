@@ -10,6 +10,44 @@
   font-size: 14px;
 }
 
+.activityLabelContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.unitToggleGroup {
+  display: flex;
+  gap: 4px;
+  background-color: #bdc3c7;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.unitToggle {
+  flex: 1;
+  padding: 4px 8px;
+  border: none;
+  background-color: transparent;
+  color: #2c3e50;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.unitToggle:hover {
+  background-color: rgba(44, 62, 80, 0.1);
+}
+
+.unitToggleActive {
+  background-color: #fff;
+  color: #e74c3c;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .select,
 .input {
   width: 100%;

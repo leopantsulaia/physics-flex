@@ -1,11 +1,12 @@
 import React from "react";
-import { ISOTOPE_DATA } from "../../constants/isotopeData";
+import { ISOTOPE_DATA, MCI_TO_MBQ } from "../../constants/isotopeData";
 import styles from "./ShieldingControls.module.css";
 
 export const ShieldingControls = ({
   isotope,
   setIsotope,
   unit,
+  setUnit,
   inputValue,
   setInputValue,
   distance,
@@ -29,12 +30,39 @@ export const ShieldingControls = ({
 
       <div className={styles.twoColumnGrid}>
         <div className={styles.controlGroup}>
-          <label className={styles.label}>Activity ({unit})</label>
+          <div className={styles.activityLabelContainer}>
+            <label className={styles.label}>Max Activity</label>
+            <div className={styles.unitToggleGroup}>
+              <button
+                className={`${styles.unitToggle} ${unit === "MBq" ? styles.unitToggleActive : ""}`}
+                onClick={() => {
+                  if (unit === "mCi") {
+                    setInputValue(Math.round(inputValue * MCI_TO_MBQ));
+                    setUnit("MBq");
+                  }
+                }}>
+                MBq
+              </button>
+              <button
+                className={`${styles.unitToggle} ${unit === "mCi" ? styles.unitToggleActive : ""}`}
+                onClick={() => {
+                  if (unit === "MBq") {
+                    setInputValue(
+                      Math.round((inputValue / MCI_TO_MBQ) * 100) / 100,
+                    );
+                    setUnit("mCi");
+                  }
+                }}>
+                mCi
+              </button>
+            </div>
+          </div>
           <input
             type="number"
             value={Math.round(inputValue)}
             onChange={(e) => setInputValue(Number(e.target.value))}
             className={styles.input}
+            placeholder={unit === "MBq" ? "Enter MBq value" : "Enter mCi value"}
           />
         </div>
         <div className={styles.controlGroup}>
