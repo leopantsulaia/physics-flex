@@ -1,11 +1,20 @@
+// --- START OF FILE AlgorithmsView.js ---
 import React from "react";
 
 export const AlgorithmsView = ({ onClose }) => {
   return (
     <div style={{
-      position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-      backgroundColor: '#0a0a0a', color: '#00ff00', zIndex: 1000,
-      overflowY: 'auto', fontFamily: 'Courier New, monospace', padding: '20px',
+      position: 'fixed', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100%',
+      backgroundColor: '#0a0a0a', 
+      color: '#00ff00', 
+      zIndex: 9999, // High z-index to sit on top of everything
+      overflowY: 'auto', 
+      fontFamily: 'Courier New, monospace', 
+      padding: '20px',
       boxSizing: 'border-box'
     }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -18,7 +27,7 @@ export const AlgorithmsView = ({ onClose }) => {
           </div>
           <button 
             onClick={onClose}
-            style={{ background: 'transparent', border: '1px solid #00ff00', color: '#00ff00', padding: '10px 20px', cursor: 'pointer', fontWeight: 'bold' }}
+            style={{ background: 'transparent', border: '1px solid #00ff00', color: '#00ff00', padding: '10px 20px', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px' }}
           >
             CLOSE TERMINAL [X]
           </button>
