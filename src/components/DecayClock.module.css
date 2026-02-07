@@ -1,94 +1,170 @@
 .container {
   font-family: "Courier New", monospace;
-  background-color: #111;
+  background-color: #050505;
   color: #0f0;
   min-height: 100vh;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .title {
-  border-bottom: 1px solid #0f0;
-  padding-bottom: 12px;
-  margin: 0 0 24px 0;
-  font-size: 28px;
-  font-weight: 700;
+  border-bottom: 2px solid #0f0;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.controls {
+.gridContainer {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  flex-direction: column;
   gap: 15px;
-  margin: 20px 0;
+  background: #111;
+  padding: 20px;
   border: 1px solid #333;
-  padding: 15px;
-  background-color: #0a0a0a;
+}
+
+.sectionTitle {
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.divider {
+  height: 1px;
+  background: #333;
+  margin: 10px 0;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
 }
 
 .controlItem {
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #0f0;
-  min-width: 150px;
-}
-
-.select,
-.input {
-  background-color: #000;
-  color: #0f0;
-  border: 1px solid #0f0;
-  padding: 8px 10px;
-  font-family: "Courier New", monospace;
-  font-size: 13px;
+  flex-direction: column;
+  gap: 5px;
   flex: 1;
 }
 
-.select:focus,
-.input:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+.label {
+  font-size: 11px;
+  color: #888;
+  font-weight: bold;
 }
 
-.liveDisplay {
-  text-align: center;
-  margin-top: 50px;
-  padding: 20px;
-  background-color: #0a0a0a;
+.inputGroup {
+  display: flex;
+  gap: 5px;
+}
+
+.select, .input {
+  background-color: #000;
+  color: #0f0;
   border: 1px solid #333;
-  border-radius: 4px;
+  padding: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.highlightInput {
+  border-color: #0f0;
+  background-color: #0a1a0a;
+}
+
+.nowBtn {
+  background-color: #222;
+  color: #0f0;
+  border: 1px solid #333;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 10px;
+  padding: 0 10px;
+}
+
+.nowBtn:hover {
+  background-color: #0f0;
+  color: #000;
+}
+
+/* TOGGLE SWITCH */
+.toggleContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 10px;
+  background: #000;
+  border: 1px solid #333;
+  color: #666;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.toggleBtn.active {
+  background: #0f0;
+  color: #000;
+  border-color: #0f0;
+}
+
+/* DISPLAY COLUMN */
+.displayColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.liveBox {
+  background: #000;
+  border: 1px solid #0f0;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
 }
 
 .liveLabel {
-  font-size: 13px;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 16px;
+  color: #0f0;
+  font-size: 12px;
+  margin-bottom: 5px;
+  opacity: 0.7;
 }
 
 .activityValue {
-  font-size: 60px;
+  font-size: 48px;
   font-weight: bold;
+  color: #fff;
   text-shadow: 0 0 10px #0f0;
-  color: #0f0;
-  font-family: "Courier New", monospace;
 }
 
 .unit {
   font-size: 18px;
+  color: #0f0;
 }
 
 .progressBarContainer {
   width: 100%;
-  height: 20px;
-  border: 1px solid #333;
-  margin-top: 20px;
-  background-color: #000;
-  overflow: hidden;
+  height: 6px;
+  background: #222;
+  margin-top: 15px;
 }
 
 .progressBar {
@@ -96,74 +172,59 @@
   transition: width 1s linear;
 }
 
-.wasteSection {
-  margin-top: 50px;
-  border-top: 1px dashed #555;
-  padding-top: 20px;
+/* RESULT BOX */
+.resultBox {
+  background: #111;
+  border: 1px dashed #555;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s;
 }
 
-.wasteTitle {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f0;
-  margin: 0 0 16px 0;
+.resultLabel {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
-.wasteInfo {
-  font-size: 13px;
-  color: #0f0;
-  margin: 10px 0;
-}
-
-.releaseBox {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #222;
-  padding: 15px;
-  border: 1px solid #333;
-  margin: 16px 0;
-  font-size: 14px;
-}
-
-.releaseDate {
-  color: #fff;
+.resultMain {
+  font-size: 36px;
   font-weight: bold;
-  font-family: "Courier New", monospace;
+  color: #fff;
+  margin-bottom: 5px;
 }
 
-.note {
+.resultSub {
+  font-size: 14px;
+  color: #666;
+}
+
+.overdue {
+  border-color: #e74c3c;
+  background: rgba(231, 76, 60, 0.05);
+}
+
+.overdue .resultMain {
+  color: #e74c3c;
+}
+
+.warningTag {
   margin-top: 10px;
-  font-size: 11px;
-  color: #aaa;
-  font-style: italic;
+  font-size: 10px;
+  color: #e74c3c;
+  font-weight: bold;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0.5; }
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 10px;
+  .gridContainer {
+    grid-template-columns: 1fr;
   }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .controls {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .controlItem {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .select,
-  .input {
-    width: 100%;
-  }
-
   .activityValue {
     font-size: 36px;
   }
