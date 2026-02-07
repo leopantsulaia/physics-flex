@@ -183,6 +183,10 @@
     font-size: 12px;
   }
 
+  .footerBar {
+    flex-direction: column;
+  }
+
   .sidePanel {
     padding: 15px;
   }
