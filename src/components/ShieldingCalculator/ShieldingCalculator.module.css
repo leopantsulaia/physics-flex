@@ -1,9 +1,25 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #fafafa;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
 .container {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
     sans-serif;
   max-width: 600px;
-  margin: 20px auto;
+  width: 100%;
   border: none;
   padding: 24px;
   background-color: #ffffff;
@@ -28,20 +44,146 @@
   margin-top: 20px;
 }
 
+.footerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.acronymsToggle {
+  padding: 12px 24px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.acronymsToggle:hover {
+  background-color: #c0392b;
+  padding: 12px 28px;
+}
+
+.credit {
+  font-size: 12px;
+  color: #7f8c8d;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sidePanel {
+  margin-top: 16px;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.acronymsSection {
+  margin: 0;
+}
+
+.acronymsTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e74c3c;
+}
+
+.acronymsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.acronymItem {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background-color: #ffffff;
+  border-left: 3px solid #e74c3c;
+  border-radius: 4px;
+}
+
+.acronymLabel {
+  font-weight: 700;
+  color: #e74c3c;
+  font-size: 12px;
+  min-width: 45px;
+  flex-shrink: 0;
+}
+
+.acronymInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.acronymExpanded {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.3;
+}
+
+.acronymDesc {
+  font-size: 10px;
+  color: #7f8c8d;
+  line-height: 1.3;
+}
+
+@media (max-width: 1024px) {
+  .mainContainer {
+    padding: 16px;
+  }
+}
+
 @media (max-width: 640px) {
+  .pageWrapper {
+    padding: 10px;
+  }
+
+  .mainContainer {
+    padding: 10px;
+  }
+
   .container {
-    margin: 10px;
     padding: 15px;
   }
 
   .title {
     font-size: 20px;
   }
-}
 
-.credit {
-  font-size: 12px;
-  color: #7f8c8d;
-  margin-top: 12px;
-  text-align: right;
+  .acronymsToggle {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .sidePanel {
+    padding: 15px;
+  }
 }

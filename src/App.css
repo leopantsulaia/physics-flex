@@ -1,23 +1,4 @@
-.appContainer {
-  display: flex;
-  min-height: 100vh;
+/* Global styles */
+body {
   background-color: #fafafa;
-}
-
-.mainContent {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-}
-
-@media (max-width: 768px) {
-  .appContainer {
-    flex-direction: column;
-  }
-
-  .mainContent {
-    padding: 10px;
-  }
 }

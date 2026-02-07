@@ -68,8 +68,12 @@ export const Glossary = () => {
 
   return (
     <aside className={styles.glossary}>
+      <div className={styles.creditBox}>
+        <p className={styles.credit}>Created by LeoPantsulaia</p>
+      </div>
+
       <div className={styles.header}>
-        <h3 className={styles.title}>Acronyms & Terms</h3>
+        <h3 className={styles.title}>Acronyms</h3>
       </div>
       <div className={styles.itemsContainer}>
         {glossaryItems.map((item) => (
