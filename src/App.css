@@ -1,4 +1,62 @@
 /* Global styles */
 body {
+  margin: 0;
+  padding: 0;
+}
+
+.appWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: #fafafa;
+}
+
+.appNav {
+  display: flex;
+  gap: 0;
+  background-color: #2c3e50;
+  border-bottom: 2px solid #e74c3c;
+  padding: 0;
+  margin: 0;
+}
+
+.navButton {
+  flex: 1;
+  padding: 16px 24px;
+  background-color: transparent;
+  color: #ecf0f1;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.navButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navButton.active {
+  color: #e74c3c;
+  border-bottom-color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.appContent {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .appNav {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .navButton {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
 }
