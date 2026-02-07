@@ -103,17 +103,15 @@ export const ShieldingResults = ({ results, distance }) => {
             <strong>SAFETY NOTICE:</strong> The values above represent the estimated dose rate
             received by the technician at <strong>{distance} meters</strong>.
           </p>
-          <div style={{ marginTop: '15px', padding: '10px', background: '#e8f4f8', borderRadius: '4px', borderLeft: '3px solid #3498db' }}>
-            <strong>☢️ REFERENCE LEVELS:</strong>
-            <ul style={{ margin: '5px 0 0 20px', padding: 0 }}>
+          <div className={styles.referenceLevels}>
+            <span className={styles.referenceTitle}>☢️ REFERENCE LEVELS:</span>
+            <ul className={styles.referenceList}>
               <li><strong>Normal Background:</strong> ~0.0001 - 0.0002 mSv/hr</li>
               <li><strong>Public Limit (Unrestricted):</strong> &lt; 0.02 mSv/hr (2 mR/hr)</li>
-              <li><strong>Occupational Limit:</strong> 20 mSv/year (Body) (not 50 mSv/year) </li>
-              <li><strong>Occupational Limit:</strong> 200 mSv/year (Hands) (not 500 mSv/year)</li>
-
+              <li><strong>Occupational Limit:</strong> 20 mSv/year (Body) | 200 mSv/year (Hands)</li>
             </ul>
-            <p style={{ marginTop: '5px', fontSize: '0.9em' }}>
-              <em>1 mR ≈ 0.01 mSv (10 µSv)</em>
+            <p className={styles.conversionNote}>
+              1 mR ≈ 0.01 mSv (10 µSv)
             </p>
           </div>
           <p style={{ fontSize: '0.8em', opacity: 0.8, marginTop: '5px' }}>
