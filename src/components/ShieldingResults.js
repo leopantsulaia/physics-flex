@@ -10,7 +10,7 @@ export const ShieldingResults = ({ results, distance }) => {
 
       <div className={styles.resultRow}>
         <span>Unshielded Dose:</span>
-        <strong>{results.unshielded} mR/hr</strong>
+        <strong>{results.unshielded}</strong>
       </div>
 
       <hr className={styles.divider} />
@@ -78,21 +78,21 @@ export const ShieldingResults = ({ results, distance }) => {
           <div className={styles.scenarioRow}>
             <span className={styles.scenarioLabel}>Lead Apron (0.5mm Pb):</span>
             <span className={styles.scenarioValue}>
-              Body receives <strong>{results.scenarios.apron} mR/hr</strong>
+              Body: <strong>{results.scenarios.apron}</strong>
             </span>
           </div>
 
           <div className={styles.scenarioRow}>
             <span className={styles.scenarioLabel}>Leaded Glasses (0.5mm Pb):</span>
             <span className={styles.scenarioValue}>
-              Eyes receive <strong>{results.scenarios.glasses} mR/hr</strong>
+              Eyes: <strong>{results.scenarios.glasses}</strong>
             </span>
           </div>
 
           <div className={styles.scenarioRow}>
             <span className={styles.scenarioLabel}>Glass Shield (0.5mm Pb):</span>
             <span className={styles.scenarioValue}>
-              Whole Body receives <strong>{results.scenarios.glassShield} mR/hr</strong>
+              Whole Body: <strong>{results.scenarios.glassShield}</strong>
             </span>
           </div>
 
@@ -103,6 +103,19 @@ export const ShieldingResults = ({ results, distance }) => {
             <strong>SAFETY NOTICE:</strong> The values above represent the estimated dose rate
             received by the technician at <strong>{distance} meters</strong>.
           </p>
+          <div style={{ marginTop: '15px', padding: '10px', background: '#e8f4f8', borderRadius: '4px', borderLeft: '3px solid #3498db' }}>
+            <strong>☢️ REFERENCE LEVELS:</strong>
+            <ul style={{ margin: '5px 0 0 20px', padding: 0 }}>
+              <li><strong>Normal Background:</strong> ~0.0001 - 0.0002 mSv/hr</li>
+              <li><strong>Public Limit (Unrestricted):</strong> &lt; 0.02 mSv/hr (2 mR/hr)</li>
+              <li><strong>Occupational Limit:</strong> 20 mSv/year (Body) (not 50 mSv/year) </li>
+              <li><strong>Occupational Limit:</strong> 200 mSv/year (Hands) (not 50 mSv/year)</li>
+
+            </ul>
+            <p style={{ marginTop: '5px', fontSize: '0.9em' }}>
+              <em>1 mR ≈ 0.01 mSv (10 µSv)</em>
+            </p>
+          </div>
           <p style={{ fontSize: '0.8em', opacity: 0.8, marginTop: '5px' }}>
             *Calculations assume standard Lead Equivalence.
             Always maintain ALARA (As Low As Reasonably Achievable) principles.
