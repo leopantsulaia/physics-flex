@@ -8,6 +8,7 @@ export const ShieldingCalculator = () => {
   const [isotope, setIsotope] = useState("Tc-99m");
   const [unit, setUnit] = useState("MBq");
   const [inputValue, setInputValue] = useState(18500);
+  const [distanceUnit, setDistanceUnit] = useState("m");
   const [distance, setDistance] = useState(2.0);
   const [targetDose, setTargetDose] = useState(0.02);
 
@@ -15,6 +16,7 @@ export const ShieldingCalculator = () => {
     isotope,
     unit,
     inputValue,
+    distanceUnit,
     distance,
     targetDose,
   );
@@ -31,6 +33,8 @@ export const ShieldingCalculator = () => {
           setUnit={setUnit}
           inputValue={inputValue}
           setInputValue={setInputValue}
+          distanceUnit={distanceUnit}
+          setDistanceUnit={setDistanceUnit}
           distance={distance}
           setDistance={setDistance}
         />

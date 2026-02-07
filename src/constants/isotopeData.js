@@ -2,6 +2,14 @@
 export const MBQ_TO_MCI = 1 / 37; // 1 mCi = 37 MBq
 export const MCI_TO_MBQ = 37;
 
+// Distance conversions (to/from meters)
+export const DISTANCE_CONVERSIONS = {
+  m: 1,
+  cm: 100,
+  ft: 3.28084,
+  in: 39.3701,
+};
+
 // --- ISOTOPE DATA ---
 // Data Source: NCRP Report No. 147 / Standard NucMed Physics
 export const ISOTOPE_DATA = {
