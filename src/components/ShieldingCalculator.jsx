@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ShieldingControls } from "../ShieldingControls/ShieldingControls";
-import { ShieldingResults } from "../ShieldingResults/ShieldingResults";
-import { useShieldingCalculation } from "../../hooks/useShieldingCalculation";
+import { ShieldingControls } from "./ShieldingControls";
+import { ShieldingResults } from "./ShieldingResults";
+import { useShieldingCalculation } from "../hooks/useShieldingCalculation";
 import styles from "./ShieldingCalculator.module.css";
 
 export const ShieldingCalculator = () => {
