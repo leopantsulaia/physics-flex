@@ -29,6 +29,32 @@ export const ShieldingResults = ({ results, distance }) => {
         </div>
 
         <div className={styles.shieldingRow}>
+          <div className={styles.shieldingLabel}>TUNGSTEN</div>
+          <div className={styles.progressBarContainer}>
+            <div
+              className={styles.progressBarTungsten}
+              style={{
+                width: `${Math.min(results.tungstenMm * 10, 100)}%`,
+                backgroundColor: '#d4af37' // Gold/Tungsten color
+              }}></div>
+          </div>
+          <div className={styles.shieldingValue}>{results.tungstenMm} mm</div>
+        </div>
+
+        <div className={styles.shieldingRow}>
+          <div className={styles.shieldingLabel}>LEAD GLASS</div>
+          <div className={styles.progressBarContainer}>
+            <div
+              className={styles.progressBarGlass}
+              style={{
+                width: `${Math.min(results.glassMm * 2, 100)}%`,
+                backgroundColor: '#aaddff' // Blue/Glass color
+              }}></div>
+          </div>
+          <div className={styles.shieldingValue}>{results.glassMm} mm</div>
+        </div>
+
+        <div className={styles.shieldingRow}>
           <div className={styles.shieldingLabel}>CONCRETE</div>
           <div className={styles.progressBarContainer}>
             <div
@@ -38,6 +64,49 @@ export const ShieldingResults = ({ results, distance }) => {
               }}></div>
           </div>
           <div className={styles.shieldingValue}>{results.concreteCm} cm</div>
+        </div>
+      </div>
+
+      <hr className={styles.divider} />
+
+      {/* SAFETY SCENARIOS */}
+      <div className={styles.scenariosBox}>
+        <h4 className={styles.scenarioTitle}>🛡️ TECHNICIAN EXPOSURE SCENARIOS</h4>
+
+        <div className={styles.scenarioList}>
+
+          <div className={styles.scenarioRow}>
+            <span className={styles.scenarioLabel}>Lead Apron (0.5mm Pb):</span>
+            <span className={styles.scenarioValue}>
+              Body receives <strong>{results.scenarios.apron} mR/hr</strong>
+            </span>
+          </div>
+
+          <div className={styles.scenarioRow}>
+            <span className={styles.scenarioLabel}>Leaded Glasses (0.5mm Pb):</span>
+            <span className={styles.scenarioValue}>
+              Eyes receive <strong>{results.scenarios.glasses} mR/hr</strong>
+            </span>
+          </div>
+
+          <div className={styles.scenarioRow}>
+            <span className={styles.scenarioLabel}>Glass Shield (0.5mm Pb):</span>
+            <span className={styles.scenarioValue}>
+              Whole Body receives <strong>{results.scenarios.glassShield} mR/hr</strong>
+            </span>
+          </div>
+
+        </div>
+
+        <div className={styles.safetyFooter}>
+          <p>
+            <strong>SAFETY NOTICE:</strong> The values above represent the estimated dose rate
+            received by the technician at <strong>{distance} meters</strong>.
+          </p>
+          <p style={{ fontSize: '0.8em', opacity: 0.8, marginTop: '5px' }}>
+            *Calculations assume standard Lead Equivalence.
+            Always maintain ALARA (As Low As Reasonably Achievable) principles.
+          </p>
         </div>
       </div>
     </div>
