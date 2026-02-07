@@ -154,15 +154,14 @@ export const DecayClock = () => {
       {/* --- THIS IS THE POPUP VIEW --- */}
       {showAlgorithms && <AlgorithmsView onClose={() => setShowAlgorithms(false)} />}
 
-      <h1 className={styles.title}>☢️ ATOMIC DECAY CLOCK</h1>
 
-      {/* --- MAIN VIEW TOGGLE --- */}
+      {/* --- MAIN VIEW TOGGLE (Title merged into first button) --- */}
       <div className={styles.mainToggleContainer}>
         <button
           className={`${styles.mainToggleBtn} ${viewMode === "ATOMIC" ? styles.active : ""}`}
           onClick={() => setViewMode("ATOMIC")}
         >
-          ATOMIC DECAY
+          ☢️ ATOMIC DECAY CLOCK
         </button>
         <button
           className={`${styles.mainToggleBtn} ${viewMode === "MO99" ? styles.active : ""}`}
