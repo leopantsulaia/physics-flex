@@ -41,7 +41,8 @@
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
+  /* Reduced from 15px */
   background: #111;
   padding: 20px;
   border: 1px solid #333;
@@ -121,7 +122,42 @@
   color: #000;
 }
 
-/* TOGGLE SWITCH */
+/* MAIN VIEW TOGGLE */
+.mainToggleContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.mainToggleBtn {
+  background: #000;
+  border: 1px solid #333;
+  color: #888;
+  padding: 15px 30px;
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  min-width: 200px;
+}
+
+.mainToggleBtn:hover {
+  border-color: #666;
+  color: #fff;
+}
+
+.mainToggleBtn.active {
+  background: #111;
+  border-color: #0f0;
+  color: #0f0;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+
+/* CALCULATOR TOGGLE (Existing) */
 .toggleContainer {
   display: flex;
   gap: 10px;

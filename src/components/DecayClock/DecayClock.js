@@ -52,6 +52,9 @@ export const DecayClock = () => {
     label: ""
   });
 
+  // --- NEW STATE FOR VIEW MODE ---
+  const [viewMode, setViewMode] = useState("ATOMIC");
+
   // --- NEW STATE FOR ALGORITHMS VIEW ---
   const [showAlgorithms, setShowAlgorithms] = useState(false);
 
@@ -153,143 +156,164 @@ export const DecayClock = () => {
 
       <h1 className={styles.title}>☢️ ATOMIC DECAY CLOCK</h1>
 
-      <div className={styles.gridContainer}>
+      {/* --- MAIN VIEW TOGGLE --- */}
+      <div className={styles.mainToggleContainer}>
+        <button
+          className={`${styles.mainToggleBtn} ${viewMode === "ATOMIC" ? styles.active : ""}`}
+          onClick={() => setViewMode("ATOMIC")}
+        >
+          ATOMIC DECAY
+        </button>
+        <button
+          className={`${styles.mainToggleBtn} ${viewMode === "MO99" ? styles.active : ""}`}
+          onClick={() => setViewMode("MO99")}
+        >
+          MOLYBDENUM-99
+        </button>
+      </div>
 
-        {/* --- LEFT COLUMN: INPUTS --- */}
-        <div className={styles.controls}>
+      {viewMode === "ATOMIC" ? (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', maxWidth: '1200px', margin: '0 auto' }}>
 
-          {/* 1. SOURCE CONFIG */}
-          <div className={styles.sectionTitle}>SOURCE SETUP</div>
+          {/* --- LEFT COLUMN: INPUTS --- */}
+          <div className={styles.controls}>
 
-          <div className={styles.controlItem}>
-            <label className={styles.label}>ISOTOPE</label>
-            <select
-              value={isotope}
-              onChange={(e) => setIsotope(e.target.value)}
-              className={styles.select}>
-              {Object.keys(ISOTOPES).map((iso) => (
-                <option key={iso} value={iso}>{ISOTOPES[iso].name}</option>
-              ))}
-            </select>
-          </div>
+            {/* 1. SOURCE CONFIG */}
+            <div className={styles.sectionTitle}>SOURCE SETUP</div>
 
-          <div className={styles.row}>
             <div className={styles.controlItem}>
-              <label className={styles.label}>ELUTION TIME</label>
-              <div className={styles.inputGroup}>
-                <input
-                  type="time"
-                  value={elutionTime}
-                  onChange={(e) => setElutionTime(e.target.value)}
-                  className={styles.input}
-                />
-                <button onClick={setElutionToNow} className={styles.nowBtn}><b>NOW</b></button>
-              </div>
+              <label className={styles.label}>ISOTOPE</label>
+              <select
+                value={isotope}
+                onChange={(e) => setIsotope(e.target.value)}
+                className={styles.select}>
+                {Object.keys(ISOTOPES).map((iso) => (
+                  <option key={iso} value={iso}>{ISOTOPES[iso].name}</option>
+                ))}
+              </select>
             </div>
-            <div className={styles.controlItem}>
-              <label className={styles.label}>ACTIVITY (MBq)</label>
-              <input
-                type="number"
-                value={elutionActivity}
-                onChange={(e) => setElutionActivity(Number(e.target.value))}
-                className={styles.input}
-              />
-            </div>
-          </div>
 
-          {/* 2. CALCULATOR SWITCHER */}
-          <div className={styles.divider}></div>
-          <div className={styles.sectionTitle}>CALCULATOR</div>
-
-          <div className={styles.toggleContainer}>
-            <button
-              className={`${styles.toggleBtn} ${calcMode === "FIND_TIME" ? styles.active : ""}`}
-              onClick={() => setCalcMode("FIND_TIME")}
-            >
-              SET TARGET <b>DOSE</b> TO FIND TIME
-            </button>
-            <button
-              className={`${styles.toggleBtn} ${calcMode === "FIND_DOSE" ? styles.active : ""}`}
-              onClick={() => setCalcMode("FIND_DOSE")}
-            >
-              SET TARGET <b>TIME</b> TO FIND DOSE
-            </button>
-          </div>
-
-          {/* CONDITIONAL INPUTS */}
-          {calcMode === "FIND_TIME" ? (
-            <div className={styles.controlItem}>
-              <label className={styles.label}>TARGET DOSE (MBq)</label>
-              <input
-                type="number"
-                value={targetDoseInput}
-                onChange={(e) => setTargetDoseInput(Number(e.target.value))}
-                className={`${styles.input} ${styles.highlightInput}`}
-              />
-            </div>
-          ) : (
             <div className={styles.row}>
               <div className={styles.controlItem}>
-                <label className={styles.label}>TARGET DATE</label>
-                <input
-                  type="date"
-                  value={targetDateInput}
-                  onChange={(e) => setTargetDateInput(e.target.value)}
-                  className={`${styles.input} ${styles.highlightInput}`}
-                />
+                <label className={styles.label}>ELUTION TIME</label>
+                <div className={styles.inputGroup}>
+                  <input
+                    type="time"
+                    value={elutionTime}
+                    onChange={(e) => setElutionTime(e.target.value)}
+                    className={styles.input}
+                  />
+                  <button onClick={setElutionToNow} className={styles.nowBtn}><b>NOW</b></button>
+                </div>
               </div>
               <div className={styles.controlItem}>
-                <label className={styles.label}>TARGET TIME</label>
+                <label className={styles.label}>ACTIVITY (MBq)</label>
                 <input
-                  type="time"
-                  value={targetTimeInput}
-                  onChange={(e) => setTargetTimeInput(e.target.value)}
-                  className={`${styles.input} ${styles.highlightInput}`}
+                  type="number"
+                  value={elutionActivity}
+                  onChange={(e) => setElutionActivity(Number(e.target.value))}
+                  className={styles.input}
                 />
               </div>
             </div>
-          )}
 
-        </div>
+            {/* 2. CALCULATOR SWITCHER */}
+            <div className={styles.divider}></div>
+            <div className={styles.sectionTitle}>CALCULATOR</div>
 
-        {/* --- RIGHT COLUMN: DISPLAY --- */}
-        <div className={styles.displayColumn}>
-
-          {/* LIVE CLOCK */}
-          <div className={styles.liveBox}>
-            <div className={styles.liveLabel}>CURRENT ACTIVITY (LIVE)</div>
-            <div className={styles.activityValue}>
-              {currentActivity.toFixed(2)} <span className={styles.unit}>MBq</span>
+            <div className={styles.toggleContainer}>
+              <button
+                className={`${styles.toggleBtn} ${calcMode === "FIND_TIME" ? styles.active : ""}`}
+                onClick={() => setCalcMode("FIND_TIME")}
+              >
+                TARGET <b>DOSE</b>
+              </button>
+              <button
+                className={`${styles.toggleBtn} ${calcMode === "FIND_DOSE" ? styles.active : ""}`}
+                onClick={() => setCalcMode("FIND_DOSE")}
+              >
+                TARGET <b>TIME</b>
+              </button>
             </div>
-            <div className={styles.progressBarContainer}>
-              <div
-                className={styles.progressBar}
-                style={{
-                  width: `${Math.min((currentActivity / elutionActivity) * 100, 100)}%`,
-                  backgroundColor: '#0f0'
-                }}></div>
+
+            {/* CONDITIONAL INPUTS WITH FIXED HEIGHT WRAPPER */}
+            <div style={{ minHeight: '70px', display: 'flex', flexDirection: 'column' }}>
+              {calcMode === "FIND_TIME" ? (
+                <div className={styles.controlItem}>
+                  <label className={styles.label}>TARGET DOSE (MBq)</label>
+                  <input
+                    type="number"
+                    value={targetDoseInput}
+                    onChange={(e) => setTargetDoseInput(Number(e.target.value))}
+                    className={`${styles.input} ${styles.highlightInput}`}
+                  />
+                </div>
+              ) : (
+                <div className={styles.row}>
+                  <div className={styles.controlItem}>
+                    <label className={styles.label}>TARGET DATE</label>
+                    <input
+                      type="date"
+                      value={targetDateInput}
+                      onChange={(e) => setTargetDateInput(e.target.value)}
+                      className={`${styles.input} ${styles.highlightInput}`}
+                    />
+                  </div>
+                  <div className={styles.controlItem}>
+                    <label className={styles.label}>TARGET TIME</label>
+                    <input
+                      type="time"
+                      value={targetTimeInput}
+                      onChange={(e) => setTargetTimeInput(e.target.value)}
+                      className={`${styles.input} ${styles.highlightInput}`}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
+
           </div>
 
-          {/* CALCULATED RESULT */}
-          <div className={`${styles.resultBox} ${calculationResult.isOverdue ? styles.overdue : ''}`}>
-            <div className={styles.resultLabel}>{calculationResult.label}</div>
-            <div className={styles.resultMain}>{calculationResult.mainValue}</div>
-            <div className={styles.resultSub}>{calculationResult.subValue}</div>
+          {/* --- RIGHT COLUMN: DISPLAY --- */}
+          <div className={styles.displayColumn}>
 
-            {calculationResult.isOverdue && (
-              <div className={styles.warningTag}>⚠️ PASSED / HISTORICAL</div>
-            )}
+            {/* LIVE CLOCK */}
+            <div className={styles.liveBox}>
+              <div className={styles.liveLabel}>CURRENT ACTIVITY (LIVE)</div>
+              <div className={styles.activityValue}>
+                {currentActivity.toFixed(2)} <span className={styles.unit}>MBq</span>
+              </div>
+              <div className={styles.progressBarContainer}>
+                <div
+                  className={styles.progressBar}
+                  style={{
+                    width: `${Math.min((currentActivity / elutionActivity) * 100, 100)}%`,
+                    backgroundColor: '#0f0'
+                  }}></div>
+              </div>
+            </div>
+
+            {/* CALCULATED RESULT */}
+            <div className={`${styles.resultBox} ${calculationResult.isOverdue ? styles.overdue : ''}`}>
+              <div className={styles.resultLabel}>{calculationResult.label}</div>
+              <div className={styles.resultMain}>{calculationResult.mainValue}</div>
+              <div className={styles.resultSub}>{calculationResult.subValue}</div>
+
+              {calculationResult.isOverdue && (
+                <div className={styles.warningTag}>⚠️ PASSED / HISTORICAL</div>
+              )}
+            </div>
+
           </div>
 
         </div>
-
-        {/* --- RIGHT COLUMN: MOLYBDENUM GENERATOR --- */}
-        <div className={styles.generatorColumn}>
+      ) : (
+        /* --- MO-99 VIEW --- */
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <MoGenerator />
         </div>
+      )}
 
-      </div>
 
       {/* --- FOOTER BUTTON FOR ALGORITHMS --- */}
       <div style={{ marginTop: '40px', textAlign: 'center', borderTop: '1px solid #333', paddingTop: '20px' }}>
