@@ -1,7 +1,8 @@
 // --- START OF FILE DecayClock.js ---
 import React, { useState, useEffect } from "react";
 import styles from "./DecayClock.module.css";
-import { AlgorithmsView } from "../AlgorithmsView/AlgorithmsView"; // <--- MAKE SURE THIS IMPORT IS HERE
+import { AlgorithmsView } from "../AlgorithmsView/AlgorithmsView";
+import { MoGenerator } from "./MoGenerator";
 
 const ISOTOPES = {
   "Tc-99m": { name: "Technetium-99m", halfLife: 6.0067 },
@@ -282,6 +283,12 @@ export const DecayClock = () => {
           </div>
 
         </div>
+
+        {/* --- RIGHT COLUMN: MOLYBDENUM GENERATOR --- */}
+        <div className={styles.generatorColumn}>
+          <MoGenerator />
+        </div>
+
       </div>
 
       {/* --- FOOTER BUTTON FOR ALGORITHMS --- */}
