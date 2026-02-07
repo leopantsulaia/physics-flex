@@ -41,6 +41,7 @@ export const ShieldingCalculator = () => {
 
         <ShieldingResults results={results} distance={distance} />
       </div>
+      <div className={styles.credit}>Created by LeoPantsulaia</div>
     </div>
   );
 };
