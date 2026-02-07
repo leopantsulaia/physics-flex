@@ -48,7 +48,8 @@ export const DecayClock = () => {
     // Calculate when target activity will be reached
     if (targetActivity > 0 && targetActivity < elutionActivity) {
       // t = -ln(A/A0) / lambda
-      const timeToTargetHours = -Math.log(targetActivity / elutionActivity) / lambda;
+      const timeToTargetHours =
+        -Math.log(targetActivity / elutionActivity) / lambda;
       const targetTimeMs = startTime + timeToTargetHours * 60 * 60 * 1000;
       setTargetActivityTime(new Date(targetTimeMs));
     } else {
