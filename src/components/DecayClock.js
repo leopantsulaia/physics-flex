@@ -279,17 +279,18 @@ export const DecayClock = () => {
           onClick={() => setShowAlgorithms(true)}
           style={{ 
             background: 'transparent', 
-            border: 'none', 
-            color: '#333', 
+            border: '1px solid #e74c3c', 
+            color: '#e74c3c', 
             cursor: 'pointer', 
             fontSize: '12px', 
             fontFamily: 'Courier New',
-            textDecoration: 'underline'
+            padding: '8px 12px',
+            borderRadius: '4px'
           }}
         >
           [ VIEW NAKED ALGORITHMS ]
         </button>
-        <div style={{ color: '#333', fontSize: '10px', marginTop: '5px' }}>
+        <div style={{ color: '#e74c3c', fontSize: '10px', marginTop: '5px' }}>
           Created by LeoPantsulaia
         </div>
       </div>
