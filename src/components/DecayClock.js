@@ -15,12 +15,20 @@ const ISOTOPES = {
   "In-111": { name: "Indium-111", halfLife: 67.2 }
 };
 
+const getLocalISODate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export const DecayClock = () => {
   // --- STATE ---
   const [isotope, setIsotope] = useState("Tc-99m");
-  
+
   // ELUTION (Source) STATE
-  const [elutionDate, setElutionDate] = useState(new Date().toISOString().slice(0, 10));
+  const [elutionDate, setElutionDate] = useState(getLocalISODate());
   const [elutionTime, setElutionTime] = useState(new Date().toTimeString().slice(0, 5));
   const [elutionActivity, setElutionActivity] = useState(1000); // MBq
 
@@ -29,7 +37,7 @@ export const DecayClock = () => {
 
   // INPUTS FOR MODES
   const [targetDoseInput, setTargetDoseInput] = useState(500); // For FIND_TIME
-  const [targetDateInput, setTargetDateInput] = useState(new Date().toISOString().slice(0, 10)); // For FIND_DOSE
+  const [targetDateInput, setTargetDateInput] = useState(getLocalISODate()); // For FIND_DOSE
   const [targetTimeInput, setTargetTimeInput] = useState(
     new Date(Date.now() + 3600000).toTimeString().slice(0, 5) // Default +1 hour
   );
@@ -49,7 +57,10 @@ export const DecayClock = () => {
   // --- HELPERS ---
   const setElutionToNow = () => {
     const now = new Date();
-    setElutionDate(now.toISOString().slice(0, 10));
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    setElutionDate(`${year}-${month}-${day}`);
     setElutionTime(now.toTimeString().slice(0, 5));
   };
 
@@ -59,8 +70,8 @@ export const DecayClock = () => {
     calculatePhysics(); // Run immediately
     return () => clearInterval(interval);
   }, [
-    isotope, 
-    elutionDate, elutionTime, elutionActivity, 
+    isotope,
+    elutionDate, elutionTime, elutionActivity,
     calcMode, targetDoseInput, targetDateInput, targetTimeInput
   ]);
 
@@ -93,25 +104,25 @@ export const DecayClock = () => {
         const hoursToTarget = -Math.log(targetDoseInput / elutionActivity) / lambda;
         const targetTimestamp = startTime + (hoursToTarget * 60 * 60 * 1000);
         const targetDateObj = new Date(targetTimestamp);
-        
+
         const isPast = targetTimestamp < now;
-        
+
         setCalculationResult({
           label: "EXPECTED AT TIME",
-          mainValue: targetDateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+          mainValue: targetDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           subValue: targetDateObj.toLocaleDateString(),
           isOverdue: isPast
         });
       }
-    } 
+    }
     else if (calcMode === "FIND_DOSE") {
       const targetStr = `${targetDateInput}T${targetTimeInput}`;
       const targetTimestamp = new Date(targetStr).getTime();
-      
+
       if (isNaN(targetTimestamp)) return;
 
       const hoursFromSource = (targetTimestamp - startTime) / (1000 * 60 * 60);
-      
+
       if (hoursFromSource < 0) {
         setCalculationResult({
           label: "ERROR",
@@ -135,20 +146,20 @@ export const DecayClock = () => {
 
   return (
     <div className={styles.container}>
-      
+
       {/* --- THIS IS THE POPUP VIEW --- */}
       {showAlgorithms && <AlgorithmsView onClose={() => setShowAlgorithms(false)} />}
 
       <h1 className={styles.title}>☢️ ATOMIC DECAY CLOCK</h1>
 
       <div className={styles.gridContainer}>
-        
+
         {/* --- LEFT COLUMN: INPUTS --- */}
         <div className={styles.controls}>
-          
+
           {/* 1. SOURCE CONFIG */}
           <div className={styles.sectionTitle}>SOURCE SETUP</div>
-          
+
           <div className={styles.controlItem}>
             <label className={styles.label}>ISOTOPE</label>
             <select
@@ -188,15 +199,15 @@ export const DecayClock = () => {
           {/* 2. CALCULATOR SWITCHER */}
           <div className={styles.divider}></div>
           <div className={styles.sectionTitle}>CALCULATOR</div>
-          
+
           <div className={styles.toggleContainer}>
-            <button 
+            <button
               className={`${styles.toggleBtn} ${calcMode === "FIND_TIME" ? styles.active : ""}`}
               onClick={() => setCalcMode("FIND_TIME")}
             >
               SET TARGET <b>DOSE</b> TO FIND TIME
             </button>
-            <button 
+            <button
               className={`${styles.toggleBtn} ${calcMode === "FIND_DOSE" ? styles.active : ""}`}
               onClick={() => setCalcMode("FIND_DOSE")}
             >
@@ -242,7 +253,7 @@ export const DecayClock = () => {
 
         {/* --- RIGHT COLUMN: DISPLAY --- */}
         <div className={styles.displayColumn}>
-          
+
           {/* LIVE CLOCK */}
           <div className={styles.liveBox}>
             <div className={styles.liveLabel}>CURRENT ACTIVITY (LIVE)</div>
@@ -264,7 +275,7 @@ export const DecayClock = () => {
             <div className={styles.resultLabel}>{calculationResult.label}</div>
             <div className={styles.resultMain}>{calculationResult.mainValue}</div>
             <div className={styles.resultSub}>{calculationResult.subValue}</div>
-            
+
             {calculationResult.isOverdue && (
               <div className={styles.warningTag}>⚠️ PASSED / HISTORICAL</div>
             )}
@@ -275,14 +286,14 @@ export const DecayClock = () => {
 
       {/* --- FOOTER BUTTON FOR ALGORITHMS --- */}
       <div style={{ marginTop: '40px', textAlign: 'center', borderTop: '1px solid #333', paddingTop: '20px' }}>
-        <button 
+        <button
           onClick={() => setShowAlgorithms(true)}
-          style={{ 
-            background: 'transparent', 
-            border: '1px solid #e74c3c', 
-            color: '#e74c3c', 
-            cursor: 'pointer', 
-            fontSize: '12px', 
+          style={{
+            background: 'transparent',
+            border: '1px solid #e74c3c',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
             fontFamily: 'Courier New',
             padding: '8px 12px',
             borderRadius: '4px'
