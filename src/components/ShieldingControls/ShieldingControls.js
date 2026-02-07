@@ -3,7 +3,7 @@ import {
   ISOTOPE_DATA,
   MCI_TO_MBQ,
   DISTANCE_CONVERSIONS,
-} from "../constants/isotopeData";
+} from "../../constants/isotopeData";
 import styles from "./ShieldingControls.module.css";
 
 export const ShieldingControls = ({

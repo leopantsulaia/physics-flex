@@ -1,7 +1,7 @@
 // --- START OF FILE DecayClock.js ---
 import React, { useState, useEffect } from "react";
 import styles from "./DecayClock.module.css";
-import { AlgorithmsView } from "./AlgorithmsView"; // <--- MAKE SURE THIS IMPORT IS HERE
+import { AlgorithmsView } from "../AlgorithmsView/AlgorithmsView"; // <--- MAKE SURE THIS IMPORT IS HERE
 
 const ISOTOPES = {
   "Tc-99m": { name: "Technetium-99m", halfLife: 6.0067 },

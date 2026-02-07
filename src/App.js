@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ShieldingCalculator } from "./components/ShieldingCalculator";
-import { DecayClock } from "./components/DecayClock";
+import { ShieldingCalculator } from "./components/ShieldingCalculator/ShieldingCalculator";
+import { DecayClock } from "./components/DecayClock/DecayClock";
 import "./App.css";
 
 function App() {
