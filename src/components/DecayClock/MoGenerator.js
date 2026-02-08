@@ -1,60 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./DecayClock.module.css"; // Reusing existing styles for consistency
 
+import { getSmartMondayISODate, formatDateDisplay } from "./helpers";
+import { computeElutionTable, predictActivity } from "./decay";
+
 const MO99_HALF_LIFE = 66.0; // Hours
-
-// Helper to get nearest upcoming Monday (or today if Mon-Fri)
-const getSmartMondayISODate = () => {
-  const d = new Date();
-  const day = d.getDay();
-  // If Weekend (Sat=6, Sun=0), jump to NEXT Monday.
-  // If Weekday (Mon=1 ... Fri=5), jump back to THIS Monday (or keep today? User prefers Monday start).
-  // Let's assume standard "Monday Start" preference means "Start of THIS week" or "Start of NEXT week".
-  // If today is Sunday, user complained about "starting from Sunday".
-  // So distinct preference for Monday.
-
-  // If Sun(0) -> +1 (Mon)
-  // If Sat(6) -> +2 (Mon)
-  // If Mon(1) -> 0
-  // If Tue(2) -> -1 (Mon) ...
-  // Let's try to target the Monday of the CURRENT week (even if past) to be safe?
-  // User complaint "why started from Sunday" implies they want Monday.
-  // If I give them "Next Monday" (future), they can plan.
-  // If I give them "Past Monday", they can calculate.
-
-  // Let's enforce: Always current week's Monday (or next if Sat/Sun?)
-  // Actually, generators usually arrive on Monday.
-  // If today is Sunday, the generator arrives TOMORROW.
-  // If today is Tuesday, the generator arrived YESTERDAY.
-
-  // Logic: If Sat/Sun -> Next Monday. Else -> Attributes to THIS Monday.
-  let diff = 0;
-  if (day === 0)
-    diff = 1; // Sunday -> Next Monday
-  else if (day === 6)
-    diff = 2; // Saturday -> Next Monday
-  else diff = -(day - 1); // Mon-Fri -> Previous Monday (e.g. Tue(2) -> -1)
-
-  // Wait, if I set it to Past Monday, user might be confused if they want to calc for *today's* reading?
-  // But they said "It must start from Monday".
-  // I will stick to this logic.
-
-  d.setDate(d.getDate() + diff);
-
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const dateStr = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${dateStr}`;
-};
-
-const formatDateDisplay = (dateObj) => {
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const dayName = days[dateObj.getDay()];
-  const day = String(dateObj.getDate()).padStart(2, "0");
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-  const year = dateObj.getFullYear();
-  return `${dayName} ${day}/${month}/${year}`;
-};
 
 export const MoGenerator = () => {
   // --- STATE ---
@@ -78,39 +28,35 @@ export const MoGenerator = () => {
 
   const calculateGeneratorPhysics = () => {
     const calStr = `${calDate}T${calTime}`;
-    const startTime = new Date(calStr).getTime();
+    const startMs = new Date(calStr).getTime();
+    if (isNaN(startMs) || calActivity <= 0) return;
 
-    if (isNaN(startTime) || calActivity <= 0) return;
-
-    const lambda = 0.693 / MO99_HALF_LIFE;
-
-    // 1. GENERATE TABLE (Next 14 days starting from Calibration Day)
-    const newTable = [];
-    for (let i = 0; i < 14; i++) {
-      const timeDiffHours = i * 24;
-      // Decay Formula: A = A0 * e^(-lambda * t)
-      const activity = calActivity * Math.exp(-lambda * timeDiffHours);
-
-      const futureDate = new Date(startTime + i * 24 * 60 * 60 * 1000);
-      const currentDay = futureDate.getDay();
-
-      newTable.push({
-        day: `Day ${i + 1}`,
-        date: formatDateDisplay(futureDate),
-        activity: activity.toFixed(0), // Round to whole number for generator
-        isWeekend: currentDay === 0 || currentDay === 6, // Sun (0) or Sat (6)
-      });
-    }
+    // Generate elution table using helpers
+    const table = computeElutionTable({
+      startMs,
+      A0: calActivity,
+      halfLifeHours: MO99_HALF_LIFE,
+      days: 14,
+    });
+    // Map to display shape
+    const newTable = table.map((r) => ({
+      day: r.day,
+      date: formatDateDisplay(r.dateObj),
+      activity: r.activity.toFixed(0),
+      isWeekend: r.isWeekend,
+    }));
     setElutionTable(newTable);
 
-    // 2. CALCULATE TARGET
-    const targetStr = `${targetDate}T${targetTime}`;
-    const targetTimestamp = new Date(targetStr).getTime();
-
-    if (!isNaN(targetTimestamp)) {
-      const hoursDiff = (targetTimestamp - startTime) / (1000 * 60 * 60);
-      const targetVal = calActivity * Math.exp(-lambda * hoursDiff);
-      setTargetResult(targetVal > 0 ? targetVal.toFixed(1) : "0.0");
+    // Predict target
+    const targetMs = new Date(`${targetDate}T${targetTime}`).getTime();
+    if (!isNaN(targetMs)) {
+      const val = predictActivity({
+        startMs,
+        targetMs,
+        A0: calActivity,
+        halfLifeHours: MO99_HALF_LIFE,
+      });
+      setTargetResult(val > 0 ? val.toFixed(1) : "0.0");
     }
   };
 
