@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   ISOTOPE_DATA,
   MBQ_TO_MCI,
@@ -15,11 +15,7 @@ export const useShieldingCalculation = (
 ) => {
   const [results, setResults] = useState(null);
 
-  useEffect(() => {
-    calculateShielding();
-  }, [isotope, unit, inputValue, distanceUnit, distance, targetDose]);
-
-  const calculateShielding = () => {
+  const calculateShielding = useCallback(() => {
     const data = ISOTOPE_DATA[isotope];
 
     // 0. Normalize Distance to Meters
@@ -79,10 +75,14 @@ export const useShieldingCalculation = (
       scenarios: {
         apron: formatDose(scenarioDoses.apron),
         glasses: formatDose(scenarioDoses.glasses),
-        glassShield: formatDose(scenarioDoses.glassShield)
-      }
+        glassShield: formatDose(scenarioDoses.glassShield),
+      },
     });
-  };
+  }, [isotope, unit, inputValue, distanceUnit, distance, targetDose]);
+
+  useEffect(() => {
+    calculateShielding();
+  }, [calculateShielding]);
 
   return results;
 };

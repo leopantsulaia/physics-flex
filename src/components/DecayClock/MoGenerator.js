@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./DecayClock.module.css"; // Reusing existing styles for consistency
 
 import { getSmartMondayISODate, formatDateDisplay } from "./helpers";
@@ -22,11 +22,7 @@ export const MoGenerator = () => {
   const [targetResult, setTargetResult] = useState(null);
 
   // --- PHYSICS ENGINE ---
-  useEffect(() => {
-    calculateGeneratorPhysics();
-  }, [calDate, calTime, calActivity, targetDate, targetTime]);
-
-  const calculateGeneratorPhysics = () => {
+  const calculateGeneratorPhysics = useCallback(() => {
     const calStr = `${calDate}T${calTime}`;
     const startMs = new Date(calStr).getTime();
     if (isNaN(startMs) || calActivity <= 0) return;
@@ -58,7 +54,11 @@ export const MoGenerator = () => {
       });
       setTargetResult(val > 0 ? val.toFixed(1) : "0.0");
     }
-  };
+  }, [calDate, calTime, calActivity, targetDate, targetTime]);
+
+  useEffect(() => {
+    calculateGeneratorPhysics();
+  }, [calculateGeneratorPhysics]);
 
   const setNow = () => {
     setCalDate(getSmartMondayISODate());

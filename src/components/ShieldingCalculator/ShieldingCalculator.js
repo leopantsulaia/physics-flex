@@ -10,7 +10,7 @@ export const ShieldingCalculator = () => {
   const [inputValue, setInputValue] = useState(18500);
   const [distanceUnit, setDistanceUnit] = useState("m");
   const [distance, setDistance] = useState(2.0);
-  const [targetDose, setTargetDose] = useState(0.02);
+  const [targetDose] = useState(0.02);
   const [showAcronyms, setShowAcronyms] = useState(false);
 
   const results = useShieldingCalculation(
