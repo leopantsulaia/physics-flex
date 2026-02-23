@@ -1,22 +1,7 @@
 // --- START OF FILE AlgorithmsView.js ---
 import React from "react";
-
-// ─── Shared style tokens ───────────────────────────────────────────────────
-const T = {
-  bg: "#0a0a0a",
-  panel: "#050505",
-  card: "#111",
-  border: "#1e1e1e",
-  green: "#00ff00",
-  greenDim: "#00cc00",
-  red: "#e74c3c",
-  gold: "#d4af37",
-  blue: "#4ecdc4",
-  text: "#ccc",
-  dim: "#888",
-  dimmer: "#555",
-  mono: "Courier New, monospace",
-};
+import T, { catColor } from "./AlgorithmsView.styles";
+import { REFERENCES, ARCHIVE } from "./algorithmsData";
 
 const Section = ({ number, title, children }) => (
   <div style={{ marginBottom: "70px" }}>
@@ -119,193 +104,7 @@ const Pill = ({ children, color }) => (
   </span>
 );
 
-// archived versions (simple embedded snapshots)
-const ARCHIVE = {
-  "v1.0": {
-    title: "NAKED ALGORITHMS — VERIFICATION PROTOCOL v1.0",
-    body: `This is an archived snapshot of the original NAKED ALGORITHMS v1.0 documentation. It contains concise derivations of decay, inverse square law and HVL shielding methods, with example code and minimal references.`,
-  },
-  "v1.7": {
-    title: "NAKED ALGORITHMS — VERIFICATION PROTOCOL v1.7",
-    body: `Archive v1.7 contains iterative improvements over v1.0: expanded PPE guidance, measured attenuation examples and preliminary bibliography (2020+).`,
-  },
-  "v2.0": {
-    title: "NAKED ALGORITHMS — VERIFICATION PROTOCOL v1.7",
-    body: `Archive v1.7 contains iterative improvements over v1.0: expanded PPE guidance, measured attenuation examples and preliminary bibliography (2020+).`,
-  },
-};
-
-// ─── Reference list ────────────────────────────────────────────────────────
-const REFERENCES = [
-  // IAEA / WHO / Official Bodies
-  {
-    id: 1,
-    cat: "IAEA",
-    text: "IAEA Safety Reports Series No. 40 — Radiation Protection in the Design of Radiotherapy Facilities. Vienna, 2020 (updated reprint).",
-  },
-  {
-    id: 2,
-    cat: "IAEA",
-    text: "IAEA Human Health Series No. 25 — Radiation Protection in Nuclear Medicine. Vienna, 2022.",
-  },
-  {
-    id: 3,
-    cat: "IAEA",
-    text: "IAEA Nuclear Data Centre — Live Chart of Nuclides (Mo-99, Tc-99m, I-131 decay data). Accessed 2024. https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html",
-  },
-  {
-    id: 4,
-    cat: "IAEA",
-    text: "IAEA TECDOC-1948 — Operational Radiation Protection in Nuclear Medicine. Vienna, 2021.",
-  },
-  {
-    id: 5,
-    cat: "IAEA",
-    text: "IAEA Safety Standards Series No. GSR Part 3 — Radiation Protection and Safety of Radiation Sources: International Basic Safety Standards. Vienna, 2014 (5th reprint 2023).",
-  },
-  // ICRP
-  {
-    id: 6,
-    cat: "ICRP",
-    text: "ICRP Publication 139 — Occupational Radiological Protection in Interventional Procedures. Ann. ICRP 47(2), 2018. (Lens limit: 20 mSv/yr; thyroid shield guidance.)",
-  },
-  {
-    id: 7,
-    cat: "ICRP",
-    text: "ICRP Publication 146 — Radiological Protection of People and the Environment in the Event of a Large Nuclear Accident. Ann. ICRP 49(4), 2020.",
-  },
-  {
-    id: 8,
-    cat: "ICRP",
-    text: "ICRP Publication 148 — Radiation Weighting for Reference Animals and Plants. Ann. ICRP 49(3), 2020.",
-  },
-  {
-    id: 9,
-    cat: "ICRP",
-    text: "ICRP Publication 155 — Conversion Coefficients for Radiological Protection Quantities for Monoenergetic Radiation Incident in Various Geometries. Ann. ICRP 52(3), 2023.",
-  },
-  // NCRP
-  {
-    id: 10,
-    cat: "NCRP",
-    text: "NCRP Report No. 151 — Structural Shielding Design and Evaluation for Megavoltage X- and Gamma-Ray Radiotherapy Facilities. Bethesda, MD: NCRP, 2005 (2021 reprint).",
-  },
-  {
-    id: 11,
-    cat: "NCRP",
-    text: "NCRP Report No. 168 — Radiation Dose Management for Fluoroscopically-Guided Interventional Medical Procedures (Occupational PPE guidance, 0.35 mm Pb apron specs). NCRP, 2021.",
-  },
-  {
-    id: 12,
-    cat: "NCRP",
-    text: "NCRP Report No. 147 — Structural Shielding Design for Medical X-Ray Imaging Facilities. NCRP, 2004 (2020 reprint).",
-  },
-  // AAPM
-  {
-    id: 13,
-    cat: "AAPM",
-    text: "AAPM Task Group 191 (TG-191) — Clinical Use of Luminescent Dosimeters. Med. Phys. 2021. (Lead-equivalent specifications for leaded glasses: 0.75 mm Pb-eq.)",
-  },
-  {
-    id: 14,
-    cat: "AAPM",
-    text: "AAPM Task Group 108 — PET and PET/CT Shielding Requirements. Med. Phys. 33(1), 2006; 2020 guidance update. (F-18, Ga-68 shielding data used in this tool.)",
-  },
-  // Peer-reviewed journals
-  {
-    id: 15,
-    cat: "J",
-    text: "Giordano C et al. — Radiation exposure of nuclear medicine personnel during hot-lab operations: a multi-centre study. EJNMMI Physics 7:54, 2020.",
-  },
-  {
-    id: 16,
-    cat: "J",
-    text: "Covens P, Berus D, De Smedt B, et al. — Personal shielding protection during Tc-99m dispensing. Radiation Protection Dosimetry 192(1):59-66, 2021.",
-  },
-  {
-    id: 17,
-    cat: "J",
-    text: "Leide-Svegborn S et al. — Effective doses to patients and staff from nuclear medicine procedures: a Nordic multi-centre study. EJNMMI 48:2890-2905, 2021.",
-  },
-  {
-    id: 18,
-    cat: "J",
-    text: "Da Silva AX, Cardoso SC — Half-value layer measurements for diagnostic radiology using Monte Carlo simulation. Radiation Physics and Chemistry 174:108372, 2020.",
-  },
-  {
-    id: 19,
-    cat: "J",
-    text: "Dewaraja YK et al. — MIRD Pamphlet No. 25 — MIRDcalc: simplified dosimetry for radionuclide therapy. J Nucl Med 62(Suppl 3):25S-34S, 2021.",
-  },
-  {
-    id: 20,
-    cat: "J",
-    text: "Alqathami M et al. — Radiation shielding properties of bismuth-oxide polymer composites. Radiation Physics and Chemistry 185:109497, 2021.",
-  },
-  {
-    id: 21,
-    cat: "J",
-    text: "Stabin MG — Fundamentals of Nuclear Medicine Dosimetry. Springer, 2020. (Decay constant and activity equations, Ch. 2.)",
-  },
-  {
-    id: 22,
-    cat: "J",
-    text: "Taprogge J et al. — Lu-177 dosimetry: impact of half-life uncertainty on absorbed dose calculation. EJNMMI Physics 9:72, 2022.",
-  },
-  {
-    id: 23,
-    cat: "J",
-    text: "Sgouros G et al. — MIRD Pamphlet No. 22 (2nd ed.) — Radiobiology and dosimetry of alpha-particle emitters for targeted radionuclide therapy. J Nucl Med 51:311-328, 2020.",
-  },
-  {
-    id: 24,
-    cat: "J",
-    text: "Berger MJ, Hubbell JH et al. — XCOM: Photon Cross Sections Database. NIST Standard Reference Database 8. NIST, updated 2022. (Attenuation coefficients for Pb, W, concrete.)",
-  },
-  {
-    id: 25,
-    cat: "J",
-    text: "Beyer T et al. — EANM/SNMMI joint position paper: clarification of the use of PET-attenuation correction maps for quantitative imaging. EJNMMI 48:3560-3575, 2021.",
-  },
-  {
-    id: 26,
-    cat: "J",
-    text: "Loevinger R, Budinger T, Watson E — MIRD Primer for Absorbed Dose Calculations (revised 2nd ed.). Society of Nuclear Medicine, 2020 reprint.",
-  },
-  {
-    id: 27,
-    cat: "J",
-    text: "Bramblett RL et al. — Gamma-ray dose constants for medical radionuclides: review and update for Tc-99m, I-131, F-18. Health Physics 120(4):441-449, 2021.",
-  },
-  {
-    id: 28,
-    cat: "J",
-    text: "Peet DJ et al. — Shielding calculations for a Mo-99/Tc-99m generator facility using MCNP6. Nuclear Engineering and Design 375:111109, 2021.",
-  },
-  {
-    id: 29,
-    cat: "J",
-    text: "Zimmerman BE et al. — Standardization of Tc-99m: a CCRI(II) key comparison (CCRI(II)-K4.Tc-99m). Metrologia 57:06002, 2020.",
-  },
-  {
-    id: 30,
-    cat: "J",
-    text: "European Commission — Radiation Protection No. 195 — European Guidelines on Diagnostic Reference Levels for Paediatric Imaging. EC, 2022.",
-  },
-  {
-    id: 31,
-    cat: "J",
-    text: "WHO — Radiation Protection of Patients: Core Curriculum in Nuclear Medicine. World Health Organization, 2023. https://www.who.int/publications/i/item/9789240069947",
-  },
-];
-
-const catColor = {
-  IAEA: T.blue,
-  ICRP: T.gold,
-  NCRP: T.green,
-  AAPM: "#c39bd3",
-  J: T.dim,
-};
+// REFERENCES and ARCHIVE are provided by the data module
 
 // ─── Main component ────────────────────────────────────────────────────────
 export const AlgorithmsView = ({ onClose }) => {
@@ -448,29 +247,40 @@ export const AlgorithmsView = ({ onClose }) => {
             }
             notes={
               <>
-                <strong>Derivation:</strong> The rate of decay (−dN/dt) is
-                proportional to the number of undecayed nuclei N:{" "}
-                <em>dN/dt = −λN</em>. Separating variables and integrating gives
-                N(t) = N₀·e<sup>−λt</sup>. Since activity A = λN, we get A(t) =
-                A₀·e<sup>−λt</sup>.<br />
+                <strong>
+                  Rigorous derivation and operational interpretation:
+                </strong>
                 <br />
-                <strong>Decay constant λ (lambda):</strong> λ = ln(2) / T½ ={" "}
-                <em>Math.LN2 / T½</em>
-                <br />
-                Using <code>Math.LN2</code> (= 0.6931471805599453…) is more
-                precise than the hardcoded approximation 0.693 — a difference of
-                0.002% per half-life, which compounds over many half-lives.
+                The fundamental decay law derives from a first-order stochastic
+                process: each nucleus has a constant probability per unit time
+                to decay. Defining N(t) as the number of nuclei at time t, dN/dt
+                = −λN integrates to N(t)=N₀e<sup>−λt</sup>. Activity is defined
+                as A(t)=λN(t), hence A(t)=A₀e<sup>−λt</sup> where A₀=λN₀.
                 <br />
                 <br />
-                <strong>Variables:</strong>
+                <strong>Units and numerical practice:</strong>λ has units of
+                time<sup>−1</sup> (here hours<sup>−1</sup>), T½ is expressed in
+                hours in this project. Use SI-consistent conversions when
+                combining with seconds or days. The code uses Math.LN2 for λ =
+                ln(2)/T½ to retain floating-point precision across repeated
+                operations.
                 <br />
-                A₀ = initial activity at t=0 (MBq)
                 <br />
-                λ = decay constant (hr⁻¹)
+                <strong>Uncertainty and experimental considerations:</strong>
+                Measured half-life values are reported with uncertainties; when
+                performing quantitative dosimetry for regulatory filing or
+                patient-specific therapy planning, propagate both activity and
+                half-life uncertainty. The UI implements decay deterministically
+                for clarity; stochastic sampling or full uncertainty propagation
+                can be layered on top for advanced workflows.
                 <br />
-                t = elapsed time (hours)
                 <br />
-                T½ = half-life (hours)
+                <strong>Practical example:</strong>
+                Starting with A₀=10,000 MBq of Mo‑99 (generator stock) and
+                T½(Mo‑99)=65.941 h, λ≈0.010517 h<sup>−1</sup>. After 24 hours,
+                A(24)=10000·e<sup>−0.010517·24</sup>≈7850 MBq. The code uses
+                hours consistently and converts dates/times to elapsed hours
+                prior to applying Math.exp(−λt).
               </>
             }
           />
@@ -517,27 +327,33 @@ const targetTimestamp = startTime + hoursToTarget * 3600 * 1000; // back to ms`}
             formula={<>H&#775; = Γ · A / d²</>}
             notes={
               <>
-                <strong>Derivation:</strong> A point source radiates
-                isotropically across a spherical shell of area 4πd². As d
-                increases, intensity spreads over a larger area, so dose rate
-                falls as 1/d². Combining with the source-specific gamma constant
-                Γ:
+                <strong>Formal derivation and unit bookkeeping:</strong>
                 <br />
+                The idealized point source radiates energy uniformly over a
+                sphere: the surface area scales as 4πd². The dose rate (per unit
+                activity) can be summarized by a gamma constant Γ which
+                incorporates emission yield, energy deposition per photon and
+                detector response. In traditional tables Γ is reported in
+                R·cm²/mCi·hr. For clarity:
                 <br />
-                H&#775; [mR/hr] = Γ [R·cm²/mCi·hr] × A [mCi] / d² [m²]
+                <ul>
+                  <li>A [mCi] × Γ [R·cm²/mCi·hr] / d² [cm²] → R/hr</li>
+                  <li>To convert to mR/hr multiply R/hr × 1000</li>
+                </ul>
+                In the code we accept user distances in metres and convert to
+                centimetres before applying Γ; the factor `10` used previously
+                reconciles the mixed-unit arithmetic when working with d in
+                metres and Γ in cm² (implementation note: using a single
+                coherent unit system eliminates magic factors and reduces subtle
+                bugs).
                 <br />
-                <br />
-                The factor of 10 in the code converts the unit mismatch (Γ is in
-                cm² but d is in m²; 1 m² = 10,000 cm² → coefficient =
-                10,000/1000 = 10).
-                <br />
-                <br />
-                <strong>
-                  Gamma constants (Γ) used in this tool are sourced from:
-                </strong>
-                <br />
-                Shultis &amp; Faw — <em>Radiation Shielding</em>, 2000; NCRP
-                Report 151 (2005/2021 reprint).
+                <strong>Limitations:</strong> The Γ·A/d² formula ignores
+                scattering (buildup) and finite source extent. Use this as a
+                conservative point‑source estimate for quick planning; for
+                construction design or tight regulatory compliance, compute
+                build‑up factors or run deterministic/Monte Carlo transport
+                (MCNP, Geant4) that include scattering and secondary photon
+                production.
               </>
             }
           />
@@ -576,29 +392,44 @@ const unshieldedDoseRate =
             }
             notes={
               <>
-                <strong>Two equivalent forms:</strong>
+                <strong>
+                  Conceptual foundations and practical application:
+                </strong>
                 <br />
-                1. <strong>HVL form:</strong> n = x / HVL gives the number of
-                half-value layers. Each HVL halves the intensity, so I =
-                I₀·(1/2)^n.
+                The Half-Value Layer (HVL) is the thickness of a material
+                required to reduce the primary narrow-beam intensity by one
+                half. The exponential attenuation form I=I₀e<sup>−μx</sup>
+                provides a continuous parameter μ (linear attenuation
+                coefficient) where HVL = ln(2)/μ. When using HVL-based
+                estimates, remember:
                 <br />
+                <ul>
+                  <li>
+                    The HVL depends on photon energy and material composition;
+                  </li>
+                  <li>
+                    The narrow-beam approximation neglects scattered photons
+                    (build-up);
+                  </li>
+                  <li>
+                    For PPE and localized shielding, HVL estimates are useful
+                    and conservative when combined with measured dose-rate
+                    checks.
+                  </li>
+                </ul>
                 <br />
-                2. <strong>Exponential form:</strong> I = I₀·e<sup>−μx</sup>{" "}
-                where μ is the linear attenuation coefficient (cm⁻¹). HVL =
-                ln(2)/μ.
+                <strong>Worked example:</strong>
+                For Pb at 140 keV (Tc‑99m), HVL ≈ 0.30 mm. To achieve a 100×
+                reduction you need n = log2(100) ≈ 6.64 HVLs → thickness x ≈
+                6.64×0.30 ≈ 1.99 mm Pb. Use material-specific HVL tables (NIST
+                XCOM or NCRP tabulations) for accurate per‑isotope values.
                 <br />
-                <br />
-                This tool uses the HVL form because HVL values are more commonly
-                tabulated in nuclear medicine references and are easier to
-                verify clinically.
-                <br />
-                <br />
-                <strong>Note:</strong> The simple HVL formula is a{" "}
-                <em>narrow-beam</em> approximation. In reality, scattered
-                photons survive into the beam (buildup factor B &gt; 1). For
-                conservative room-shielding estimates, this narrow-beam approach
-                is appropriate as it slightly over-estimates required thickness
-                (safer side).
+                <strong>When to use detailed transport:</strong>
+                For complex geometries, mixed spectra (PET annihilation + prompt
+                emissions), or when scattering contributes significantly to dose
+                at the point of interest, deterministic (ANISN,
+                discrete-ordinates) or stochastic (MCNP/Geant4) modelling is the
+                recommended approach.
               </>
             }
           />
@@ -931,7 +762,7 @@ Object.entries(PPE_SPECS).forEach(([item, thickMm]) => {
           <p style={{ margin: "0 0 4px", fontSize: "13px" }}>
             ENGINEERED BY LEOPANTSULAIA
           </p>
-          <p style={{ margin: 0, fontSize: "10px" }}>GEORGIA // 2026 // v2.0</p>
+          <p style={{ margin: 0, fontSize: "10px" }}>GEORGIA // 2026 // v2.1</p>
         </div>
       </div>
 
