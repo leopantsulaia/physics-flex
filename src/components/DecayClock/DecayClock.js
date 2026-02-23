@@ -80,7 +80,7 @@ export const DecayClock = () => {
     if (isNaN(startTime)) return;
 
     const halfLifeHours = ISOTOPES[isotope].halfLife;
-    const lambda = 0.693 / halfLifeHours;
+    const lambda = Math.LN2 / halfLifeHours; // λ = ln(2) / T½  (Math.LN2 = 0.6931471…)
 
     // 2. Calculate LIVE Current Activity
     const timeDiffHours = (now - startTime) / (1000 * 60 * 60);
@@ -242,12 +242,12 @@ export const DecayClock = () => {
               <button
                 className={`${styles.toggleBtn} ${calcMode === "FIND_TIME" ? styles.active : ""}`}
                 onClick={() => setCalcMode("FIND_TIME")}>
-                TARGET <b>DOSE</b>
+                I KNOW THE <b>DOSE</b> → Find Time
               </button>
               <button
                 className={`${styles.toggleBtn} ${calcMode === "FIND_DOSE" ? styles.active : ""}`}
                 onClick={() => setCalcMode("FIND_DOSE")}>
-                TARGET <b>TIME</b>
+                I KNOW THE <b>TIME</b> → Find Activity
               </button>
             </div>
 
