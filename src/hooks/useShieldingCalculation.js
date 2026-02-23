@@ -25,11 +25,12 @@ export const useShieldingCalculation = (
     const activityInMci = unit === "MBq" ? inputValue * MBQ_TO_MCI : inputValue;
 
     // 2. Inverse Square Law — Dose Rate at given distance
-    // Approximation: H_dot (mR/hr) = (Gamma_constant * mCi * 10) / d²(m)
-    // Source: Shultis & Faw, "Radiation Shielding" 2000; NCRP Report 151 (2005)
-    const unshieldedDoseRate =
-      (data.gammaConstant * 10 * activityInMci) /
-      (distanceInMeters * distanceInMeters);
+    // Gamma constant units in `ISOTOPE_DATA` are R * cm^2 / (mCi * hr)
+    // Dose (R/hr) = Gamma_constant * A(mCi) / d(cm)^2
+    // Convert distance to cm and then convert R/hr -> mR/hr for display (1 R = 1000 mR)
+    const distanceCm = distanceInMeters * 100;
+    const doseRperHr = (data.gammaConstant * activityInMci) / (distanceCm * distanceCm);
+    const unshieldedDoseRate = doseRperHr * 1000; // mR/hr
 
     // 3. Required Shielding Thickness (HVL method)
     // Attenuation: I = I₀ × (1/2)^n  where n = thickness / HVL

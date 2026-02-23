@@ -3,7 +3,7 @@
 export const computeElutionTable = ({
   startMs,
   A0,
-  halfLifeHours = 65.94, // IAEA: 65.94 ± 0.01 h
+  halfLifeHours = 65.941, // Mo-99 T1/2 (hours) — IAEA / NNDC recommended value
   days = 14,
 }) => {
   if (!startMs || A0 <= 0) return [];

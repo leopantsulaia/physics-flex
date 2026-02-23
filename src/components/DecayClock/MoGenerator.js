@@ -4,7 +4,7 @@ import styles from "./DecayClock.module.css"; // Reusing existing styles for con
 import { getSmartMondayISODate, formatDateDisplay } from "./helpers";
 import { computeElutionTable, predictActivity } from "./decay";
 
-const MO99_HALF_LIFE = 65.94; // Hours — IAEA Nuclear Data Centre (2023), T½ = 65.94 ± 0.01 h
+const MO99_HALF_LIFE = 65.941; // Hours — standard Mo-99 half-life (IAEA/NNDC recommended)
 
 export const MoGenerator = () => {
   // --- STATE ---

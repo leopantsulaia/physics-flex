@@ -6,14 +6,14 @@ import { MoGenerator } from "./MoGenerator";
 
 const ISOTOPES = {
   "Tc-99m": { name: "Technetium-99m", halfLife: 6.0067 },
-  "I-131": { name: "Iodine-131", halfLife: 192.0 },
-  "F-18": { name: "Fluorine-18", halfLife: 1.8295 },
-  "Ga-68": { name: "Gallium-68", halfLife: 1.13 },
-  "Lu-177": { name: "Lutetium-177", halfLife: 159.52 },
-  "I-123": { name: "Iodine-123", halfLife: 13.22 },
-  "Tl-201": { name: "Thallium-201", halfLife: 72.91 },
-  "Ga-67": { name: "Gallium-67", halfLife: 78.24 },
-  "In-111": { name: "Indium-111", halfLife: 67.2 },
+  "I-131": { name: "Iodine-131", halfLife: 192.4968 },
+  "F-18": { name: "Fluorine-18", halfLife: 1.829518 },
+  "Ga-68": { name: "Gallium-68", halfLife: 1.1285 },
+  "Lu-177": { name: "Lutetium-177", halfLife: 159.528 },
+  "I-123": { name: "Iodine-123", halfLife: 13.223 },
+  "Tl-201": { name: "Thallium-201", halfLife: 73.1 },
+  "Ga-67": { name: "Gallium-67", halfLife: 78.28 },
+  "In-111": { name: "Indium-111", halfLife: 67.3 },
 };
 
 const getLocalISODate = () => {
@@ -89,7 +89,7 @@ export const DecayClock = () => {
 
     // 3. Handle Calculation Modes
     if (calcMode === "FIND_TIME") {
-      if (targetDoseInput >= elutionActivity) {
+      if (targetDoseInput > elutionActivity) {
         setCalculationResult({
           label: "IMPOSSIBLE",
           mainValue: "Target > Source",
