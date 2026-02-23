@@ -25,6 +25,7 @@ function App() {
         {activeTab === "shielding" && <ShieldingCalculator />}
         {activeTab === "decay" && <DecayClock />}
       </div>
+        <div className="footerCredit">Created by LeoPantsulaia © 2026 24 February - Version 2.1</div>
     </div>
   );
 }
