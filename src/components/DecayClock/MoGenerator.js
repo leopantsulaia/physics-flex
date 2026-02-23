@@ -72,7 +72,7 @@ export const MoGenerator = () => {
       <div
         className={styles.sectionTitle}
         style={{ color: "#d4af37", borderColor: "#d4af37" }}>
-        MO-99 GENERATOR (T½=66h)
+        MO-99 GENERATOR (T½ = 65.941 h ≈ 65 h 56 m 28 s) — (IAEA/NNDC)
       </div>
 
       {/* INPUTS */}

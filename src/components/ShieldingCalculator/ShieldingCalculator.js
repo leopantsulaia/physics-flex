@@ -3,13 +3,14 @@ import { ShieldingControls } from "../ShieldingControls/ShieldingControls";
 import { ShieldingResults } from "../ShieldingResults/ShieldingResults";
 import { useShieldingCalculation } from "../../hooks/useShieldingCalculation";
 import styles from "./ShieldingCalculator.module.css";
+import { AlgorithmsView } from "../AlgorithmsView/AlgorithmsView";
 
 /* ──────────────────────────────────────────────────────────────────────────
    LEAD APRON INFO CARD
    Explains the clinical value of lead aprons and thyroid shields in hot-lab
    settings — shown inline above the calculator results.
 ────────────────────────────────────────────────────────────────────────── */
-const LeadApronCard = () => (
+const LeadApronCard = ({ onOpenDocs }) => (
   <div style={{
     background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
     border: '1px solid #e74c3c',
@@ -66,7 +67,20 @@ const LeadApronCard = () => (
     <div style={{ fontSize: '11.5px', color: '#888', borderTop: '1px solid #333', paddingTop: '10px' }}>
       <strong style={{ color: '#aaa' }}>Clinical evidence:</strong>{" "}
       Giordano et al. (2020) — <em>Radiation exposure of nuclear medicine staff during hot-lab operations</em>, EJNMMI Physics;{" "}
-      IAEA Radiation Protection Series No. 40 (2014/rev. 2022); ICRP Publication 139 (2018).
+      <button
+        onClick={onOpenDocs}
+        style={{
+          background: 'transparent',
+          border: 'none',
+          color: '#d4af37',
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          padding: 0,
+          marginLeft: '6px',
+          fontSize: '11px'
+        }}>
+        View bibliography
+      </button>
     </div>
   </div>
 );
@@ -79,6 +93,7 @@ export const ShieldingCalculator = () => {
   const [distance, setDistance] = useState(2.0);
   const [targetDose] = useState(0.02);
   const [showAcronyms, setShowAcronyms] = useState(false);
+  const [showDocs, setShowDocs] = useState(false);
 
   const results = useShieldingCalculation(
     isotope,
@@ -160,7 +175,11 @@ export const ShieldingCalculator = () => {
           <h2 className={styles.title}>☢️ NucMed Shielding Optimizer</h2>
 
           {/* LEAD APRON INFO CARD — always visible at the top */}
-          <LeadApronCard />
+          <LeadApronCard onOpenDocs={() => setShowDocs(true)} />
+
+          {showDocs && (
+            <AlgorithmsView onClose={() => setShowDocs(false)} />
+          )}
 
           <div className={styles.grid}>
             <ShieldingControls
