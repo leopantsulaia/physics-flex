@@ -8,15 +8,23 @@ function App() {
 
   return (
     <div className="appWrapper">
+      <div className="announcementBanner">
+        <div className="announcementContent">
+          <p><strong>VERSION 3.2 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE FIXED SOON.</strong></p>
+          <p><strong>IMPORTANT!!!</strong></p>
+          <p>NEW RESEARCH RELEASED. AUTOMATICALLY ADDED TO THE "GOOD TO READ" CATEGORY. (THIS IS A @DEVELOPER ANNOUNCEMENT created by LeoPants)</p>
+        </div>
+      </div>
+      
       <nav className="appNav">
         <button
           className={`navButton ${activeTab === "shielding" ? "active" : ""}`}
-          onClick={() => setActiveTab("shielding")}>
+          onClick={() => setActiveTab("shielding")}> 
           Shielding Calculator
         </button>
         <button
           className={`navButton ${activeTab === "decay" ? "active" : ""}`}
-          onClick={() => setActiveTab("decay")}>
+          onClick={() => setActiveTab("decay")}> 
           Decay Clock
         </button>
       </nav>
