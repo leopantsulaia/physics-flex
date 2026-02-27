@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ShieldingCalculator } from "./components/ShieldingCalculator/ShieldingCalculator";
 import { DecayClock } from "./components/DecayClock/DecayClock";
+import TwitterPost from "./components/TwitterPost/TwitterPost";
 import "./App.css";
 
 function App() {
@@ -8,6 +9,13 @@ function App() {
 
   return (
     <div className="appWrapper">
+      <button
+        className="hugeActionButton"
+        onClick={() => setActiveTab("twitter")}
+      >
+        LATEST SCIENTIFIC BREAKTHROUGH & ANALYSIS 🚀
+      </button>
+
       <div className="announcementBanner">
         <div className="announcementContent">
           <p><strong>VERSION 3.2 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE FIXED SOON.</strong></p>
@@ -15,16 +23,16 @@ function App() {
           <p>NEW RESEARCH RELEASED. AUTOMATICALLY ADDED TO THE "GOOD TO READ" CATEGORY. (THIS IS A @DEVELOPER ANNOUNCEMENT created by LeoPants)</p>
         </div>
       </div>
-      
+
       <nav className="appNav">
         <button
           className={`navButton ${activeTab === "shielding" ? "active" : ""}`}
-          onClick={() => setActiveTab("shielding")}> 
+          onClick={() => setActiveTab("shielding")}>
           Shielding Calculator
         </button>
         <button
           className={`navButton ${activeTab === "decay" ? "active" : ""}`}
-          onClick={() => setActiveTab("decay")}> 
+          onClick={() => setActiveTab("decay")}>
           Decay Clock
         </button>
       </nav>
@@ -32,8 +40,9 @@ function App() {
       <div className="appContent">
         {activeTab === "shielding" && <ShieldingCalculator />}
         {activeTab === "decay" && <DecayClock />}
+        {activeTab === "twitter" && <TwitterPost />}
       </div>
-        <div className="footerCredit">Created by LeoPantsulaia © 2026 24 February - Version 2.1</div>
+      <div className="footerCredit">Created by LeoPantsulaia © 2026 24 February - Version 2.1</div>
     </div>
   );
 }
