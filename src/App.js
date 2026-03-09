@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { ShieldingCalculator } from "./components/ShieldingCalculator/ShieldingCalculator";
 import { DecayClock } from "./components/DecayClock/DecayClock";
 import TwitterPost from "./components/TwitterPost/TwitterPost";
-///////////
-import NotTwitter from "./components/TwitterPost/NotTwitter";
-///////////
+import { AlgorithmsView } from "./components/AlgorithmsView/AlgorithmsView";
 import "./App.css";
 
 function App() {
   const [activeTab, setActiveTab] = useState("shielding");
+  const [showDocs, setShowDocs] = useState(false);
 
   return (
     <div className="appWrapper">
@@ -18,20 +17,18 @@ function App() {
       >
         LATEST SCIENTIFIC BREAKTHROUGH & ANALYSIS 🚀
       </button>
-      ///////////////////////////////
-      <button
-        className="hugeActionButton"
-        style={{ background: 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)', marginTop: '10px' }}
-        onClick={() => setActiveTab("nottwitter")}
-      >
-        QUANTUM MECHANICS TEXTBOOK 📚
-      </button>
-      ///////////////////////////////
       <div className="announcementBanner">
         <div className="announcementContent">
           <p><strong>VERSION 3.2 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE FIXED SOON.</strong></p>
           <p><strong>IMPORTANT!!!</strong></p>
           <p>NEW RESEARCH RELEASED. AUTOMATICALLY ADDED TO THE "GOOD TO READ" CATEGORY. (THIS IS A @DEVELOPER ANNOUNCEMENT created by LeoPants)</p>
+          <button
+            className="hugeActionButton"
+            style={{ marginTop: "15px" }}
+            onClick={() => setShowDocs(true)}
+          >
+            VIEW NAKED ALGORITHMS
+          </button>
         </div>
       </div>
 
@@ -52,11 +49,10 @@ function App() {
         {activeTab === "shielding" && <ShieldingCalculator />}
         {activeTab === "decay" && <DecayClock />}
         {activeTab === "twitter" && <TwitterPost />}
-        ////////////
-        {activeTab === "nottwitter" && <NotTwitter />}
-        ////////////
       </div>
       <div className="footerCredit">Created by LeoPantsulaia © 2026 24 February - Version 2.1</div>
+
+      {showDocs && <AlgorithmsView onClose={() => setShowDocs(false)} />}
     </div>
   );
 }

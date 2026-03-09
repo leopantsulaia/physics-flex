@@ -19,6 +19,7 @@ import {
   SECTION_4_PPE,
   SECTION_5_REFERENCES,
 } from "./algorithmsContent";
+import { SECTION_5_ADVANCED } from "./algorithmsAdvancedContent";
 import { PPE_TABLE_ROWS, THYROID_FACTS } from "./ppeData";
 
 export const AlgorithmsView = ({ onClose }) => {
@@ -301,9 +302,20 @@ export const AlgorithmsView = ({ onClose }) => {
           <CodeBox title={SECTION_4_PPE.codeTitle} code={SECTION_4_PPE.code} />
         </Section>
 
-        {/* SECTION 5 — REFERENCES */}
+        {/* SECTION 5 — ADVANCED ALGORITHMS */}
         <Section
-          number={SECTION_5_REFERENCES.number}
+          number={SECTION_5_ADVANCED.number}
+          title={SECTION_5_ADVANCED.title}>
+          <PhysicsBox
+            formula={SECTION_5_ADVANCED.formula}
+            notes={SECTION_5_ADVANCED.notes}
+          />
+          <CodeBox code={SECTION_5_ADVANCED.code} />
+        </Section>
+
+        {/* SECTION 6 — REFERENCES */}
+        <Section
+          number={"6.0"}
           title={SECTION_5_REFERENCES.title}>
           <div
             style={{
