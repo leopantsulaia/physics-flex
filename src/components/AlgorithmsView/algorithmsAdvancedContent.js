@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import React from "react";
+import ReactMarkdown from "react-markdown";
 
 const markdownContent = `
 ### 1. Quantum Mechanics and Perturbation Dynamics
@@ -84,31 +84,77 @@ User interface parameters cleanly mirror intricate analytic mathematical matrice
 `;
 
 const MarkdownComponents = {
-    h3: ({ node, ...props }) => <h3 style={{ color: '#67d096', borderBottom: '1px dashed #333', paddingBottom: '8px', marginTop: '32px', marginBottom: '16px', fontSize: '15px', textTransform: 'uppercase', letterSpacing: '1px' }} {...props} />,
-    p: ({ node, ...props }) => <p style={{ lineHeight: '1.8', fontSize: '13.5px', marginBottom: '16px', textAlign: 'justify', color: '#ccc' }} {...props} />,
-    strong: ({ node, ...props }) => <strong style={{ color: '#fff' }} {...props} />,
-    code: ({ node, ...props }) => <code style={{ background: 'rgba(255,255,255,0.1)', padding: '2px 4px', borderRadius: '4px', color: '#ff7b72' }} {...props} />
+  h3: ({ node, ...props }) => (
+    <h3
+      style={{
+        color: "#67d096",
+        borderBottom: "1px dashed #333",
+        paddingBottom: "8px",
+        marginTop: "32px",
+        marginBottom: "16px",
+        fontSize: "15px",
+        textTransform: "uppercase",
+        letterSpacing: "1px",
+      }}
+      {...props}>
+      {props.children}
+    </h3>
+  ),
+  p: ({ node, ...props }) => (
+    <p
+      style={{
+        lineHeight: "1.8",
+        fontSize: "13.5px",
+        marginBottom: "16px",
+        textAlign: "justify",
+        color: "#ccc",
+      }}
+      {...props}>
+      {props.children}
+    </p>
+  ),
+  strong: ({ node, ...props }) => (
+    <strong style={{ color: "#fff" }} {...props}>
+      {props.children}
+    </strong>
+  ),
+  code: ({ node, ...props }) => (
+    <code
+      style={{
+        background: "rgba(255,255,255,0.1)",
+        padding: "2px 4px",
+        borderRadius: "4px",
+        color: "#ff7b72",
+      }}
+      {...props}>
+      {props.children}
+    </code>
+  ),
 };
 
 export const SECTION_5_ADVANCED = {
-    number: "5.0",
-    title: "ADVANCED NAKED ALGORITHMS: QUANTUM, STOCHASTIC, AND TRANSPORT FORMULATIONS",
-    formula: (
-        <>
-            Ω̂·∇ψ(r,E,Ω) + Σ_t(r,E)ψ(r,E,Ω) = ∫ dE' ∫ dΩ' Σ_s(r,E'→E,Ω'→Ω)ψ(r,E',Ω') + Q(r,E,Ω)
-        </>
-    ),
-    notes: (
-        <div className="markdown-container" style={{ padding: "10px 0" }}>
-            <ReactMarkdown components={MarkdownComponents}>{markdownContent}</ReactMarkdown>
-        </div>
-    ),
-    code: `// ─── DEEP ALGORITHMIC THEORETICAL EQUIVALENCE  ─────────────
+  number: "5.0",
+  title:
+    "ADVANCED NAKED ALGORITHMS: QUANTUM, STOCHASTIC, AND TRANSPORT FORMULATIONS",
+  formula: (
+    <>
+      Ω̂·∇ψ(r,E,Ω) + Σ_t(r,E)ψ(r,E,Ω) = ∫ dE' ∫ dΩ' Σ_s(r,E'→E,Ω'→Ω)ψ(r,E',Ω') +
+      Q(r,E,Ω)
+    </>
+  ),
+  notes: (
+    <div className="markdown-container" style={{ padding: "10px 0" }}>
+      <ReactMarkdown components={MarkdownComponents}>
+        {markdownContent}
+      </ReactMarkdown>
+    </div>
+  ),
+  code: `// ─── DEEP ALGORITHMIC THEORETICAL EQUIVALENCE  ─────────────
 // The above descriptions delineate the exact quantum and probabilistic 
 // mechanics driving the simplified algorithms in our UI matrix.
 // 
 // ĤΨ = iℏ(∂Ψ/∂t)  ⟶  Γ = (2π/ℏ) |⟨f|H'|i⟩|² ρ(E_f) ⟶  A(t)=A₀ e^(-λt)
 //
 // Our continuous algorithms mathematically map these deep discrete realities
-// natively into standard user processing environments accurately.`
+// natively into standard user processing environments accurately.`,
 };
