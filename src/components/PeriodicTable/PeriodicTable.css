@@ -1,0 +1,101 @@
+.periodic-table-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.periodic-table {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 20px 0;
+}
+
+.period-row {
+  display: flex;
+  gap: 2px;
+}
+
+.element-cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-size: 12px;
+  text-align: center;
+  position: relative;
+}
+
+.element-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.element-cell.empty {
+  background-color: transparent;
+  border: none;
+  cursor: default;
+}
+
+.atomic-number {
+  font-size: 10px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.symbol {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.name {
+  font-size: 8px;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.element-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.element-details {
+  margin: 15px 0;
+}
+
+.element-details p {
+  margin: 5px 0;
+}

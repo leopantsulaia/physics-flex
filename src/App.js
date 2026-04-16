@@ -3,6 +3,7 @@ import { ShieldingCalculator } from "./components/ShieldingCalculator/ShieldingC
 import { DecayClock } from "./components/DecayClock/DecayClock";
 import TwitterPost from "./components/TwitterPost/TwitterPost";
 import { AlgorithmsView } from "./components/AlgorithmsView/AlgorithmsView";
+import PeriodicTable from "./components/PeriodicTable";
 import "./App.css";
 
 function App() {
@@ -13,20 +14,28 @@ function App() {
     <div className="appWrapper">
       <button
         className="hugeActionButton"
-        onClick={() => setActiveTab("twitter")}
-      >
+        onClick={() => setActiveTab("twitter")}>
         LATEST SCIENTIFIC BREAKTHROUGH & ANALYSIS 🚀
       </button>
       <div className="announcementBanner">
         <div className="announcementContent">
-          <p><strong>VERSION 3.2 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE FIXED SOON.</strong></p>
-          <p><strong>IMPORTANT!!!</strong></p>
-          <p>NEW RESEARCH RELEASED. AUTOMATICALLY ADDED TO THE "GOOD TO READ" CATEGORY. (THIS IS A @DEVELOPER ANNOUNCEMENT created by LeoPants)</p>
+          <p>
+            <strong>
+              VERSION 3.2 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE
+              FIXED SOON.
+            </strong>
+          </p>
+          <p>
+            <strong>IMPORTANT!!!</strong>
+          </p>
+          <p>
+            NEW RESEARCH RELEASED. AUTOMATICALLY ADDED TO THE "GOOD TO READ"
+            CATEGORY. (THIS IS A @DEVELOPER ANNOUNCEMENT created by LeoPants)
+          </p>
           <button
             className="hugeActionButton"
             style={{ marginTop: "15px" }}
-            onClick={() => setShowDocs(true)}
-          >
+            onClick={() => setShowDocs(true)}>
             VIEW NAKED ALGORITHMS
           </button>
         </div>
@@ -43,14 +52,22 @@ function App() {
           onClick={() => setActiveTab("decay")}>
           Decay Clock
         </button>
+        <button
+          className={`navButton ${activeTab === "periodic" ? "active" : ""}`}
+          onClick={() => setActiveTab("periodic")}>
+          Periodic Table
+        </button>
       </nav>
 
       <div className="appContent">
         {activeTab === "shielding" && <ShieldingCalculator />}
         {activeTab === "decay" && <DecayClock />}
+        {activeTab === "periodic" && <PeriodicTable />}
         {activeTab === "twitter" && <TwitterPost />}
       </div>
-      <div className="footerCredit">Created by LeoPantsulaia © 2026 24 February - Version 2.1</div>
+      <div className="footerCredit">
+        Created by LeoPantsulaia © 2026 24 February - Version 2.1
+      </div>
 
       {showDocs && <AlgorithmsView onClose={() => setShowDocs(false)} />}
     </div>
