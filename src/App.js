@@ -66,7 +66,7 @@ function App() {
         {activeTab === "twitter" && <TwitterPost />}
       </div>
       <div className="footerCredit">
-        Created by LeoPantsulaia © 2026 24 February - Version 2.1
+        Created by Leo Pantsulaia — LeoPhysics © 2026 — Version 3.2
       </div>
 
       {showDocs && <AlgorithmsView onClose={() => setShowDocs(false)} />}

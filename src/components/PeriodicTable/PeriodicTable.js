@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PeriodicTable.css";
 
 const PeriodicTable = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <div className="periodic-table-wrapper" style={{ width: "100%", height: "85vh", overflow: "hidden" }}>
-      <iframe 
-        src="/zperiod/index.html" 
-        title="Interactive Periodic Table"
-        style={{ width: "100%", height: "100%", border: "none" }}
+    <div className="periodic-table-wrapper">
+      {isLoading && (
+        <div className="periodic-table-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading LeoPhysics Periodic Table...</p>
+        </div>
+      )}
+      <iframe
+        src="/zperiod/index.html"
+        title="LeoPhysics Interactive Periodic Table"
+        className="periodic-table-iframe"
         allowFullScreen
+        onLoad={() => setIsLoading(false)}
       />
     </div>
   );

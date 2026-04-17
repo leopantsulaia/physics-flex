@@ -5,7 +5,7 @@ import {
   initModalUI,
   reRenderCurrentAtomModal,
   setGlobalUnit,
-  l3UnitState
+  l3UnitState,
 } from "./js/modules/uiController.js";
 import { initPageController } from "./js/modules/pageController.js";
 import { createToolsModalController } from "./js/modules/toolsModalController.js";
@@ -19,7 +19,7 @@ import {
   initLangController,
   onLangChange,
   registerCacheCleanup,
-  t
+  t,
 } from "./js/modules/langController.js";
 import { initOnboardingFlow } from "./js/modules/onboardingController.js";
 
@@ -29,12 +29,15 @@ function isRealMobileDevice() {
   if (window.innerWidth > 1024) return false;
 
   const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
-  const hasTouchScreen = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
-  const mobileUA = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const hasTouchScreen =
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  const mobileUA =
+    /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
   const isIPad = /Macintosh/i.test(navigator.userAgent) && hasTouchScreen;
   return hasCoarsePointer && (mobileUA || isIPad);
 }
-
 
 // ========================================
 // Welcome Modal - Intro Page
@@ -42,34 +45,55 @@ function isRealMobileDevice() {
 // ========================================
 // Global Dragging State (used to prevent accidental panel close)
 // ========================================
-window._zperiodIsDragging = false;
+window._leophysicsIsDragging = false;
 (function initGlobalDragTracking() {
   let pointerDown = false;
-  let startX = 0, startY = 0;
+  let startX = 0,
+    startY = 0;
   const DRAG_THRESHOLD = 5;
-  document.addEventListener('pointerdown', (e) => {
-    pointerDown = true;
-    startX = e.clientX;
-    startY = e.clientY;
-  }, true);
-  document.addEventListener('pointermove', (e) => {
-    if (!pointerDown) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) {
-      window._zperiodIsDragging = true;
-    }
-  }, true);
-  document.addEventListener('pointerup', () => {
-    pointerDown = false;
-    // Delay clearing drag state so click handlers see it
-    setTimeout(() => { window._zperiodIsDragging = false; }, 80);
-  }, true);
-  document.addEventListener('pointercancel', () => {
-    pointerDown = false;
-    setTimeout(() => { window._zperiodIsDragging = false; }, 80);
-  }, true);
-  window.addEventListener('blur', () => {
+  document.addEventListener(
+    "pointerdown",
+    (e) => {
+      pointerDown = true;
+      startX = e.clientX;
+      startY = e.clientY;
+    },
+    true,
+  );
+  document.addEventListener(
+    "pointermove",
+    (e) => {
+      if (!pointerDown) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) {
+        window._leophysicsIsDragging = true;
+      }
+    },
+    true,
+  );
+  document.addEventListener(
+    "pointerup",
+    () => {
+      pointerDown = false;
+      // Delay clearing drag state so click handlers see it
+      setTimeout(() => {
+        window._leophysicsIsDragging = false;
+      }, 80);
+    },
+    true,
+  );
+  document.addEventListener(
+    "pointercancel",
+    () => {
+      pointerDown = false;
+      setTimeout(() => {
+        window._leophysicsIsDragging = false;
+      }, 80);
+    },
+    true,
+  );
+  window.addEventListener("blur", () => {
     pointerDown = false;
     // Don't close panels on blur
   });
@@ -79,8 +103,8 @@ window._zperiodIsDragging = false;
 // Global Animation Speed State
 // ========================================
 const savedAnimationState = getSavedAnimationState();
-window._zperiodAnimPaused = savedAnimationState.paused;
-window._zperiodAnimSpeed = savedAnimationState.speed;
+window._leophysicsAnimPaused = savedAnimationState.paused;
+window._leophysicsAnimSpeed = savedAnimationState.speed;
 
 // ========================================
 // Lazy Script/Module Loaders (performance)
@@ -138,14 +162,14 @@ function initWelcomeModal() {
 
   // ===== Current version for changelog gating =====
   const CURRENT_VERSION = "2.0.1";
-  
+
   // Cache busting force reload (one-time for each release)
-  const lastForced = localStorage.getItem("zperiod_force_refresh");
+  const lastForced = localStorage.getItem("leophysics_force_refresh");
   if (lastForced !== CURRENT_VERSION) {
-    localStorage.setItem("zperiod_force_refresh", CURRENT_VERSION);
+    localStorage.setItem("leophysics_force_refresh", CURRENT_VERSION);
     // Add version to URL and reload to bypass disk cache once
     const url = new URL(window.location.href);
-    url.searchParams.set('v', CURRENT_VERSION);
+    url.searchParams.set("v", CURRENT_VERSION);
     window.location.replace(url.toString());
     return;
   }
@@ -166,7 +190,7 @@ function initWelcomeModal() {
     welcomeModal.classList.remove("active");
     document.body.classList.remove("welcome-active");
     document.body.classList.remove("hide-nav");
-    localStorage.setItem("zperiod_welcomed", "true");
+    localStorage.setItem("leophysics_welcomed", "true");
     if (window._heroCleanup) window._heroCleanup();
   }
 
@@ -181,14 +205,14 @@ function initWelcomeModal() {
     if (!changelogModal) return;
     changelogModal.classList.remove("active");
     document.body.classList.remove("hide-nav");
-    localStorage.setItem("zperiod_changelog_seen", CURRENT_VERSION);
+    localStorage.setItem("leophysics_changelog_seen", CURRENT_VERSION);
     // Also mark as welcomed so the welcome modal won't pop up after
-    localStorage.setItem("zperiod_welcomed", "true");
+    localStorage.setItem("leophysics_welcomed", "true");
   }
 
   // ===== Decide which to show =====
-  const seenChangelogVersion = localStorage.getItem("zperiod_changelog_seen");
-  const hasVisited = localStorage.getItem("zperiod_welcomed");
+  const seenChangelogVersion = localStorage.getItem("leophysics_changelog_seen");
+  const hasVisited = localStorage.getItem("leophysics_welcomed");
 
   if (seenChangelogVersion !== CURRENT_VERSION) {
     // Changelog takes priority — show to ALL users (new or returning)
@@ -208,14 +232,16 @@ function initWelcomeModal() {
   if (startBtn) startBtn.addEventListener("click", closeWelcome);
   if (welcomeModal) {
     welcomeModal.addEventListener("click", (e) => {
-      if (window._zperiodIsDragging) return;
+      if (window._leophysicsIsDragging) return;
       if (e.target === welcomeModal) closeWelcome();
     });
   }
 
   // ===== Event bindings: Changelog =====
-  if (changelogCloseBtn) changelogCloseBtn.addEventListener("click", closeChangelog);
-  if (changelogDismissBtn) changelogDismissBtn.addEventListener("click", closeChangelog);
+  if (changelogCloseBtn)
+    changelogCloseBtn.addEventListener("click", closeChangelog);
+  if (changelogDismissBtn)
+    changelogDismissBtn.addEventListener("click", closeChangelog);
 
   const showChangelogBtn = document.getElementById("show-changelog-btn");
   if (showChangelogBtn) {
@@ -228,7 +254,7 @@ function initWelcomeModal() {
 
   if (changelogModal) {
     changelogModal.addEventListener("click", (e) => {
-      if (window._zperiodIsDragging) return;
+      if (window._leophysicsIsDragging) return;
       if (e.target === changelogModal) closeChangelog();
     });
   }
@@ -430,7 +456,6 @@ function initPeriodicTableScale() {
       }
 
       applyLayout(currentGap, scale, marginTop);
-
     } catch (e) {
       console.error("Scale Error:", e);
     } finally {
@@ -442,7 +467,10 @@ function initPeriodicTableScale() {
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => requestAnimationFrame(() => scaleTable(true)), 50);
+    resizeTimer = setTimeout(
+      () => requestAnimationFrame(() => scaleTable(true)),
+      50,
+    );
   });
   window.addEventListener("load", () => scaleTable(true));
   // Also run immediately
@@ -470,7 +498,7 @@ function initNavResponsive() {
 
     if (width > 1700 && aspectRatio > 1.7) {
       const aspectReduction = Math.min(0.07, (aspectRatio - 1.7) * 0.09);
-      const widthReduction = Math.min(0.05, (width - 1700) / 1800 * 0.05);
+      const widthReduction = Math.min(0.05, ((width - 1700) / 1800) * 0.05);
       scale -= aspectReduction + widthReduction;
     }
 
@@ -494,7 +522,8 @@ function initNavResponsive() {
     const navGap = 12;
     const brandGap = brand && brandW > 0 ? 10 : 0;
 
-    const totalNeeded = logoW + brandGap + brandW + navGap + pillW + SAFETY_GAP * 2;
+    const totalNeeded =
+      logoW + brandGap + brandW + navGap + pillW + SAFETY_GAP * 2;
 
     if (totalNeeded > navInnerWidth) {
       nav.classList.add("nav-hide-brand");
@@ -512,7 +541,7 @@ function initNavResponsive() {
 }
 
 // Global Data Version State
-window.zperiodVersion = 'old';
+window.leophysicsVersion = "old";
 
 function bootstrapApp() {
   initLangController();
@@ -524,19 +553,20 @@ function bootstrapApp() {
 
   // Release-gated onboarding: force-show the intro animation once per release.
   const ONBOARDING_VERSION = "2.0.1";
-  const seenOnboardingVersion = localStorage.getItem("zperiod_onboarding_seen_version");
+  const seenOnboardingVersion = localStorage.getItem(
+    "leophysics_onboarding_seen_version",
+  );
   if (seenOnboardingVersion !== ONBOARDING_VERSION) {
-    localStorage.setItem("zperiod_onboarding_seen_version", ONBOARDING_VERSION);
-    localStorage.removeItem("zperiod_welcomed_v2");
+    localStorage.setItem("leophysics_onboarding_seen_version", ONBOARDING_VERSION);
+    localStorage.removeItem("leophysics_welcomed_v2");
   }
 
-  if (!localStorage.getItem("zperiod_welcomed_v2")) {
+  if (!localStorage.getItem("leophysics_welcomed_v2")) {
     initOnboardingFlow();
     return;
   }
 
   initWelcomeModal();
-
 
   // Version Dropdown Logic
   const dropdown = document.getElementById("version-dropdown");
@@ -558,54 +588,57 @@ function bootstrapApp() {
 
     // Switch version — Advanced is disabled (not ready)
     // Create tooltip element
-    const tooltip = document.createElement('div');
-    tooltip.className = 'advanced-tooltip';
-    
+    const tooltip = document.createElement("div");
+    tooltip.className = "advanced-tooltip";
+
     // Set localized text and update on lang change
-    tooltip.innerText = t("ionModal.comingSoon") || 'Coming Soon...';
+    tooltip.innerText = t("ionModal.comingSoon") || "Coming Soon...";
     onLangChange(() => {
-      tooltip.innerText = t("ionModal.comingSoon") || 'Coming Soon...';
+      tooltip.innerText = t("ionModal.comingSoon") || "Coming Soon...";
     });
 
     // Opaque Styles
     Object.assign(tooltip.style, {
-      position: 'fixed',
-      background: '#1a1a1a', // Dark opaque background
-      color: '#fff', // White text
-      padding: '6px 12px', // Compact padding
-      borderRadius: '20px', // Pill shape
-      fontSize: '12px',
-      fontWeight: '500',
-      lineHeight: '1',
-      pointerEvents: 'none',
-      zIndex: '9999',
-      display: 'none',
-      whiteSpace: 'nowrap',
-      transform: 'translateY(-50%)',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)', // Softer shadow
+      position: "fixed",
+      background: "#1a1a1a", // Dark opaque background
+      color: "#fff", // White text
+      padding: "6px 12px", // Compact padding
+      borderRadius: "20px", // Pill shape
+      fontSize: "12px",
+      fontWeight: "500",
+      lineHeight: "1",
+      pointerEvents: "none",
+      zIndex: "9999",
+      display: "none",
+      whiteSpace: "nowrap",
+      transform: "translateY(-50%)",
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)", // Softer shadow
       fontFamily: '"Inter", sans-serif',
-      textAlign: 'center',
-      border: 'none' // Remove border since it's opaque
+      textAlign: "center",
+      border: "none", // Remove border since it's opaque
     });
     document.body.appendChild(tooltip);
 
     // Hover logic
     if (option) {
-      option.addEventListener('mouseenter', () => {
+      option.addEventListener("mouseenter", () => {
         const rect = option.getBoundingClientRect();
         // Position to the right of the dropdown menu
-        tooltip.style.top = (rect.top + rect.height / 2) + 'px';
-        tooltip.style.left = (rect.right + 12) + 'px'; // 12px gap
-        tooltip.style.display = 'block';
+        tooltip.style.top = rect.top + rect.height / 2 + "px";
+        tooltip.style.left = rect.right + 12 + "px"; // 12px gap
+        tooltip.style.display = "block";
 
         // Add a subtle fade-in animation
-        tooltip.animate([
-          { opacity: 0, transform: 'translateY(-50%) translateX(-5px)' },
-          { opacity: 1, transform: 'translateY(-50%) translateX(0)' }
-        ], { duration: 200, easing: 'ease-out' });
+        tooltip.animate(
+          [
+            { opacity: 0, transform: "translateY(-50%) translateX(-5px)" },
+            { opacity: 1, transform: "translateY(-50%) translateX(0)" },
+          ],
+          { duration: 200, easing: "ease-out" },
+        );
       });
-      option.addEventListener('mouseleave', () => {
-        tooltip.style.display = 'none';
+      option.addEventListener("mouseleave", () => {
+        tooltip.style.display = "none";
       });
 
       // Keep click disabled
@@ -651,9 +684,9 @@ function bootstrapApp() {
     },
     onSettingsPageShown: () => {
       requestAnimationFrame(() => {
-         if (window._syncGlobalUnitButtons) window._syncGlobalUnitButtons(true);
+        if (window._syncGlobalUnitButtons) window._syncGlobalUnitButtons(true);
       });
-    }
+    },
   });
 
   // Initialize element search in navbar
