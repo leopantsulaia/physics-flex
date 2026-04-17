@@ -13,7 +13,7 @@ const PeriodicTable = () => {
         </div>
       )}
       <iframe
-        src="/zperiod/index.html"
+        src="/LPeriodic/index.html"
         title="LeoPhysics Interactive Periodic Table"
         className="periodic-table-iframe"
         allowFullScreen
