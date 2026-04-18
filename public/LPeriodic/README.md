@@ -120,7 +120,6 @@ physics-flex/
 │   ├── tools.css           # Chemistry tools styles
 │   ├── ions.css            # Ion engine styles
 │   ├── ion-animations.css  # Ion-specific animations
-│   ├── mobile-landing.css  # Mobile landing page
 │   └── worksheet-styles.css
 ├── js/
 │   ├── ion-animations.js   # Ion animation logic

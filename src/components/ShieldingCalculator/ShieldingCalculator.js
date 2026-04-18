@@ -11,16 +11,18 @@ import { AlgorithmsView } from "../AlgorithmsView/AlgorithmsView";
    settings — shown inline above the calculator results.
 ────────────────────────────────────────────────────────────────────────── */
 const LeadApronCard = ({ onOpenDocs }) => (
-  <div style={{
-    background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-    border: '1px solid #e74c3c',
-    borderRadius: '8px',
-    padding: '20px 24px',
-    marginBottom: '24px',
-    color: '#ddd',
-    fontFamily: 'inherit',
-    lineHeight: 1.6,
-  }}>
+  <div
+    className={styles.leadApronCard}
+    style={{
+      background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+      border: "1px solid #e74c3c",
+      borderRadius: "8px",
+      padding: "20px 24px",
+      marginBottom: "24px",
+      color: "#ddd",
+      fontFamily: "inherit",
+      lineHeight: 1.6,
+    }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
       <span style={{ fontSize: '28px' }}>🥼</span>
       <div>
@@ -33,7 +35,7 @@ const LeadApronCard = ({ onOpenDocs }) => (
       </div>
     </div>
 
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '14px' }}>
+    <div className={styles.leadApronGrid}>
 
       {/* LEFT: WHY LEAD APRON */}
       <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '14px' }}>

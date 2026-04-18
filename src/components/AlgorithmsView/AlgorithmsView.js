@@ -46,6 +46,10 @@ export const AlgorithmsView = ({ onClose }) => {
         {/* HEADER */}
         <div
           style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 2,
+            backgroundColor: T.bg,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -209,67 +213,70 @@ export const AlgorithmsView = ({ onClose }) => {
               }}>
               PPE SPECIFICATIONS — LEAD-EQUIVALENT THICKNESS & ATTENUATION
             </div>
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                fontSize: "12.5px",
-                fontFamily: T.mono,
-              }}>
-              <thead>
-                <tr
-                  style={{
-                    color: T.dim,
-                    borderBottom: `1px solid ${T.border}`,
-                  }}>
-                  <th style={{ textAlign: "left", padding: "6px 8px" }}>
-                    EQUIPMENT
-                  </th>
-                  <th style={{ textAlign: "center", padding: "6px 8px" }}>
-                    Pb-eq
-                  </th>
-                  <th style={{ textAlign: "center", padding: "6px 8px" }}>
-                    Tc-99m attenuation
-                  </th>
-                  <th style={{ textAlign: "left", padding: "6px 8px" }}>
-                    SOURCE
-                  </th>
-                </tr>
-              </thead>
-              <tbody style={{ color: T.text }}>
-                {PPE_TABLE_ROWS.map((row, i) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${T.border}` }}>
-                    <td style={{ padding: "8px 8px", color: "#fff" }}>
-                      {row.name}
-                    </td>
-                    <td
-                      style={{
-                        padding: "8px 8px",
-                        textAlign: "center",
-                        color: T.gold,
-                      }}>
-                      {row.pbEq}
-                    </td>
-                    <td
-                      style={{
-                        padding: "8px 8px",
-                        textAlign: "center",
-                        color: T.green,
-                      }}>
-                      {row.tcAttenuation}
-                    </td>
-                    <td
-                      style={{
-                        padding: "8px 8px",
-                        color: T.dim,
-                        fontSize: "11px",
-                      }}>
-                      {row.source}
-                    </td>
+            <div style={{ width: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+              <table
+                style={{
+                  width: "100%",
+                  minWidth: "640px",
+                  borderCollapse: "collapse",
+                  fontSize: "12.5px",
+                  fontFamily: T.mono,
+                }}>
+                <thead>
+                  <tr
+                    style={{
+                      color: T.dim,
+                      borderBottom: `1px solid ${T.border}`,
+                    }}>
+                    <th style={{ textAlign: "left", padding: "6px 8px" }}>
+                      EQUIPMENT
+                    </th>
+                    <th style={{ textAlign: "center", padding: "6px 8px" }}>
+                      Pb-eq
+                    </th>
+                    <th style={{ textAlign: "center", padding: "6px 8px" }}>
+                      Tc-99m attenuation
+                    </th>
+                    <th style={{ textAlign: "left", padding: "6px 8px" }}>
+                      SOURCE
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody style={{ color: T.text }}>
+                  {PPE_TABLE_ROWS.map((row, i) => (
+                    <tr key={i} style={{ borderBottom: `1px solid ${T.border}` }}>
+                      <td style={{ padding: "8px 8px", color: "#fff" }}>
+                        {row.name}
+                      </td>
+                      <td
+                        style={{
+                          padding: "8px 8px",
+                          textAlign: "center",
+                          color: T.gold,
+                        }}>
+                        {row.pbEq}
+                      </td>
+                      <td
+                        style={{
+                          padding: "8px 8px",
+                          textAlign: "center",
+                          color: T.green,
+                        }}>
+                        {row.tcAttenuation}
+                      </td>
+                      <td
+                        style={{
+                          padding: "8px 8px",
+                          color: T.dim,
+                          fontSize: "11px",
+                        }}>
+                        {row.source}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div
               style={{
                 marginTop: "14px",

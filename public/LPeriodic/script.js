@@ -23,22 +23,6 @@ import {
 } from "./js/modules/langController.js";
 import { initOnboardingFlow } from "./js/modules/onboardingController.js";
 
-function isRealMobileDevice() {
-  // Wide viewports (> 1024px) get the full desktop app, even on touch devices like iPad.
-  // This must stay in sync with the CSS breakpoint in mobile-landing.css.
-  if (window.innerWidth > 1024) return false;
-
-  const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
-  const hasTouchScreen =
-    "ontouchstart" in window || navigator.maxTouchPoints > 0;
-  const mobileUA =
-    /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    );
-  const isIPad = /Macintosh/i.test(navigator.userAgent) && hasTouchScreen;
-  return hasCoarsePointer && (mobileUA || isIPad);
-}
-
 // ========================================
 // Welcome Modal - Intro Page
 // ========================================
@@ -150,8 +134,6 @@ function loadHeroAtomModule() {
 }
 
 function initWelcomeModal() {
-  if (isRealMobileDevice()) return;
-
   const welcomeModal = document.getElementById("welcome-modal");
   const closeBtn = document.getElementById("welcome-close-btn");
   const startBtn = document.getElementById("welcome-start-btn");
@@ -546,10 +528,7 @@ window.leophysicsVersion = "old";
 function bootstrapApp() {
   initLangController();
 
-  if (isRealMobileDevice()) {
-    // Keep real mobile users on the dedicated landing and avoid desktop onboarding/welcome flows.
-    return;
-  }
+  // Mobile support: run the full app on phones/tablets.
 
   // Release-gated onboarding: force-show the intro animation once per release.
   const ONBOARDING_VERSION = "2.0.1";

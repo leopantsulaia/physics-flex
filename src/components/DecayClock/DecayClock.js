@@ -181,14 +181,7 @@ export const DecayClock = () => {
       </div>
 
       {viewMode === "ATOMIC" ? (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "20px",
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}>
+        <div className={styles.atomicGrid}>
           {/* --- LEFT COLUMN: INPUTS --- */}
           <div className={styles.controls}>
             {/* 1. SOURCE CONFIG */}

@@ -23,29 +23,13 @@ import {
 } from "./js/modules/langController.js";
 import { initOnboardingFlow } from "./js/modules/onboardingController.js";
 
-function isRealMobileDevice() {
-  // Wide viewports (> 1024px) get the full desktop app, even on touch devices like iPad.
-  // This must stay in sync with the CSS breakpoint in mobile-landing.css.
-  if (window.innerWidth > 1024) return false;
-
-  const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
-  const hasTouchScreen =
-    "ontouchstart" in window || navigator.maxTouchPoints > 0;
-  const mobileUA =
-    /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    );
-  const isIPad = /Macintosh/i.test(navigator.userAgent) && hasTouchScreen;
-  return hasCoarsePointer && (mobileUA || isIPad);
-}
-
 // ========================================
 // Welcome Modal - Intro Page
 // ========================================
 // ========================================
 // Global Dragging State (used to prevent accidental panel close)
 // ========================================
-window._leosphysicsIsDragging = false;
+window._leophysicsIsDragging = false;
 (function initGlobalDragTracking() {
   let pointerDown = false;
   let startX = 0,
@@ -67,7 +51,7 @@ window._leosphysicsIsDragging = false;
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
       if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) {
-        window._leosphysicsIsDragging = true;
+        window._leophysicsIsDragging = true;
       }
     },
     true,
@@ -78,7 +62,7 @@ window._leosphysicsIsDragging = false;
       pointerDown = false;
       // Delay clearing drag state so click handlers see it
       setTimeout(() => {
-        window._leosphysicsIsDragging = false;
+        window._leophysicsIsDragging = false;
       }, 80);
     },
     true,
@@ -88,7 +72,7 @@ window._leosphysicsIsDragging = false;
     () => {
       pointerDown = false;
       setTimeout(() => {
-        window._leosphysicsIsDragging = false;
+        window._leophysicsIsDragging = false;
       }, 80);
     },
     true,
@@ -103,8 +87,8 @@ window._leosphysicsIsDragging = false;
 // Global Animation Speed State
 // ========================================
 const savedAnimationState = getSavedAnimationState();
-window._leosphysicsAnimPaused = savedAnimationState.paused;
-window._leosphysicsAnimSpeed = savedAnimationState.speed;
+window._leophysicsAnimPaused = savedAnimationState.paused;
+window._leophysicsAnimSpeed = savedAnimationState.speed;
 
 // ========================================
 // Lazy Script/Module Loaders (performance)
@@ -150,8 +134,6 @@ function loadHeroAtomModule() {
 }
 
 function initWelcomeModal() {
-  if (isRealMobileDevice()) return;
-
   const welcomeModal = document.getElementById("welcome-modal");
   const closeBtn = document.getElementById("welcome-close-btn");
   const startBtn = document.getElementById("welcome-start-btn");
@@ -164,9 +146,9 @@ function initWelcomeModal() {
   const CURRENT_VERSION = "2.0.1";
 
   // Cache busting force reload (one-time for each release)
-  const lastForced = localStorage.getItem("leosphysics_force_refresh");
+  const lastForced = localStorage.getItem("leophysics_force_refresh");
   if (lastForced !== CURRENT_VERSION) {
-    localStorage.setItem("leosphysics_force_refresh", CURRENT_VERSION);
+    localStorage.setItem("leophysics_force_refresh", CURRENT_VERSION);
     // Add version to URL and reload to bypass disk cache once
     const url = new URL(window.location.href);
     url.searchParams.set("v", CURRENT_VERSION);
@@ -190,7 +172,7 @@ function initWelcomeModal() {
     welcomeModal.classList.remove("active");
     document.body.classList.remove("welcome-active");
     document.body.classList.remove("hide-nav");
-    localStorage.setItem("leosphysics_welcomed", "true");
+    localStorage.setItem("leophysics_welcomed", "true");
     if (window._heroCleanup) window._heroCleanup();
   }
 
@@ -205,14 +187,14 @@ function initWelcomeModal() {
     if (!changelogModal) return;
     changelogModal.classList.remove("active");
     document.body.classList.remove("hide-nav");
-    localStorage.setItem("leosphysics_changelog_seen", CURRENT_VERSION);
+    localStorage.setItem("leophysics_changelog_seen", CURRENT_VERSION);
     // Also mark as welcomed so the welcome modal won't pop up after
-    localStorage.setItem("leosphysics_welcomed", "true");
+    localStorage.setItem("leophysics_welcomed", "true");
   }
 
   // ===== Decide which to show =====
-  const seenChangelogVersion = localStorage.getItem("leosphysics_changelog_seen");
-  const hasVisited = localStorage.getItem("leosphysics_welcomed");
+  const seenChangelogVersion = localStorage.getItem("leophysics_changelog_seen");
+  const hasVisited = localStorage.getItem("leophysics_welcomed");
 
   if (seenChangelogVersion !== CURRENT_VERSION) {
     // Changelog takes priority — show to ALL users (new or returning)
@@ -232,7 +214,7 @@ function initWelcomeModal() {
   if (startBtn) startBtn.addEventListener("click", closeWelcome);
   if (welcomeModal) {
     welcomeModal.addEventListener("click", (e) => {
-      if (window._leosphysicsIsDragging) return;
+      if (window._leophysicsIsDragging) return;
       if (e.target === welcomeModal) closeWelcome();
     });
   }
@@ -254,7 +236,7 @@ function initWelcomeModal() {
 
   if (changelogModal) {
     changelogModal.addEventListener("click", (e) => {
-      if (window._leosphysicsIsDragging) return;
+      if (window._leophysicsIsDragging) return;
       if (e.target === changelogModal) closeChangelog();
     });
   }
@@ -541,27 +523,24 @@ function initNavResponsive() {
 }
 
 // Global Data Version State
-window.leo'sphysicsVersion = "old";
+window.leophysicsVersion = "old";
 
 function bootstrapApp() {
   initLangController();
 
-  if (isRealMobileDevice()) {
-    // Keep real mobile users on the dedicated landing and avoid desktop onboarding/welcome flows.
-    return;
-  }
+  // Mobile support: run the full app on phones/tablets.
 
   // Release-gated onboarding: force-show the intro animation once per release.
   const ONBOARDING_VERSION = "2.0.1";
   const seenOnboardingVersion = localStorage.getItem(
-    "leo'sphysics_onboarding_seen_version",
+    "leophysics_onboarding_seen_version",
   );
   if (seenOnboardingVersion !== ONBOARDING_VERSION) {
-    localStorage.setItem("leo'sphysics_onboarding_seen_version", ONBOARDING_VERSION);
-    localStorage.removeItem("leo'sphysics_welcomed_v2");
+    localStorage.setItem("leophysics_onboarding_seen_version", ONBOARDING_VERSION);
+    localStorage.removeItem("leophysics_welcomed_v2");
   }
 
-  if (!localStorage.getItem("leo'sphysics_welcomed_v2")) {
+  if (!localStorage.getItem("leophysics_welcomed_v2")) {
     initOnboardingFlow();
     return;
   }

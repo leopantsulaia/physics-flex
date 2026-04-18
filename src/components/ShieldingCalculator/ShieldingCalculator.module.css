@@ -44,6 +44,19 @@
   margin-top: 20px;
 }
 
+.leadApronGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.leadApronCard {
+  box-sizing: border-box;
+  width: 100%;
+}
+
 .footerBar {
   display: flex;
   align-items: center;
@@ -189,5 +202,9 @@
 
   .sidePanel {
     padding: 15px;
+  }
+
+  .leadApronGrid {
+    grid-template-columns: 1fr;
   }
 }
