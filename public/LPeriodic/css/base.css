@@ -31,7 +31,6 @@
 }
 
 html {
-  overscroll-behavior: none;
 }
 
 body {
@@ -46,7 +45,6 @@ body {
   width: 100vw;
   overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior: none;
   padding: 0;
   margin: 0;
 }

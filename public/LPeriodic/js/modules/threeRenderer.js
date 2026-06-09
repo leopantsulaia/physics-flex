@@ -258,6 +258,12 @@ export function init3DScene(container) {
     window.addEventListener("touchend", () => { isDragging = false; }, sig);
 
     canvasEl.addEventListener("wheel", (e) => {
+      // If we are embedded in an iframe and not fullscreen, allow parent page to scroll (don't trap or zoom)
+      const isFullscreen = window.innerWidth >= window.screen.width * 0.95 && window.innerHeight >= window.screen.height * 0.95;
+      if (window.self !== window.top && !isFullscreen) {
+        return;
+      }
+
       e.preventDefault();
       isIntroAnimating = false;
       camera.position.z = Math.max(4, Math.min(60, camera.position.z + e.deltaY * 0.02));
