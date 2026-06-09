@@ -58,8 +58,8 @@ export const AlgorithmsView = ({ onClose }) => {
             marginBottom: "50px",
           }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: "26px", letterSpacing: "2px" }}>
-              NAKED ALGORITHMS
+            <h1 style={{ margin: 0, fontSize: "18px", letterSpacing: "1px" }}>
+              I PROVED A RESEARCHER COLIN FARMERY WRONG AND HE DEACTIVATED HIS ACCOUNT ON X!!!
             </h1>
             <div style={{ fontSize: "11px", opacity: 0.8, marginTop: "4px" }}>
               VERIFICATION PROTOCOL v5.0 — NucMed Shielding Optimizer
@@ -99,7 +99,7 @@ export const AlgorithmsView = ({ onClose }) => {
                   <div style={{ marginBottom: "6px", color: T.dim }}>
                     Archived documentation
                   </div>
-                  {["v1.0", "v1.7", "v2.0", "v2.4", "v2.7", "v3.0", "v3.1", "v3.2", "v4.0"].map((v) => (
+                  {["v2.4", "v2.7", "v3.0", "v3.1", "v3.2", "v4.0"].map((v) => (
                     <button
                       key={v}
                       onClick={() => {
@@ -116,8 +116,7 @@ export const AlgorithmsView = ({ onClose }) => {
                         padding: "6px 0",
                         cursor: "pointer",
                       }}>
-                      {v}{" "}
-                      (permanently removed)
+                      {v} (permanently removed)
                     </button>
                   ))}
                   <button

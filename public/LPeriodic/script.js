@@ -30,6 +30,19 @@ import { initOnboardingFlow } from "./js/modules/onboardingController.js";
 // Global Dragging State (used to prevent accidental panel close)
 // ========================================
 window._leophysicsIsDragging = false;
+
+// Relay scroll events to parent window when embedded in an iframe (not fullscreen)
+window.addEventListener('wheel', (e) => {
+  const isFullscreen = window.innerWidth >= window.screen.width * 0.95 && window.innerHeight >= window.screen.height * 0.95;
+  if (window.self !== window.top && !isFullscreen) {
+    try {
+      window.parent.scrollBy(0, e.deltaY);
+    } catch (err) {
+      // Ignore cross-origin errors if any
+    }
+  }
+}, { passive: true });
+
 (function initGlobalDragTracking() {
   let pointerDown = false;
   let startX = 0,

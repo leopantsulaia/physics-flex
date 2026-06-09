@@ -1,4 +1,4 @@
-// Documentation content for NAKED ALGORITHMS v2.1
+// Documentation content for NAKED ALGORITHMS v5.0
 // This file contains all textual content organized by section
 
 export const SECTION_1_DECAY = {
@@ -11,68 +11,43 @@ export const SECTION_1_DECAY = {
   ),
   notes: (
     <>
-      <strong>Rigorous derivation and operational interpretation:</strong>
+      <strong>The Fundamental Law of Decay:</strong>
       <br />
-      The fundamental decay law derives from a first-order stochastic process:
-      each nucleus has a constant probability per unit time to decay. Defining
-      N(t) as the number of nuclei at time t, dN/dt = −λN integrates to N(t)=N₀e
-      <sup>−λt</sup>. Activity is defined as A(t)=λN(t), hence A(t)=A₀e
-      <sup>−λt</sup> where A₀=λN₀.
+      Radioactive decay is a purely stochastic, quantum mechanical process. The probability of any single unstable nucleus decaying in a given time interval is constant, which gives rise to the foundational differential equation: <em>dN/dt = −λN</em>. When we integrate this, we arrive at the classic exponential decay law: N(t) = N₀e<sup>−λt</sup>. Because Activity (A) is directly proportional to the number of nuclei (A = λN), the activity follows the exact same exponential drop: A(t) = A₀e<sup>−λt</sup>.
       <br />
       <br />
-      <strong>Units and numerical practice:</strong>λ has units of time
-      <sup>−1</sup> (here hours<sup>−1</sup>), T½ is expressed in hours in this
-      project. Use SI-consistent conversions when combining with seconds or
-      days. The code uses Math.LN2 for λ = ln(2)/T½ to retain floating-point
-      precision across repeated operations.
+      <strong>Decay Constant (λ) & Half-Life (T½):</strong>
+      <br />
+      The decay constant λ represents the fractional rate of decay and is inversely proportional to the half-life. We define it as λ = ln(2) / T½. In our nuclear medicine application, where isotopes like <strong>Tc-99m</strong> (T½ ≈ 6.01 hours) or Mo-99 (T½ ≈ 65.94 hours) govern workflow, maintaining floating-point precision is critical. We utilize <code>Math.LN2</code> in JavaScript for pristine accuracy across recursive calculations.
       <br />
       <br />
-      <strong>Uncertainty and experimental considerations:</strong>
-      Measured half-life values are reported with uncertainties; when performing
-      quantitative dosimetry for regulatory filing or patient-specific therapy
-      planning, propagate both activity and half-life uncertainty. The UI
-      implements decay deterministically for clarity; stochastic sampling or
-      full uncertainty propagation can be layered on top for advanced workflows.
+      <strong>Clinical Example — Tc-99m:</strong>
       <br />
-      <br />
-      <strong>Practical example:</strong>
-      Starting with A₀=10,000 MBq of Mo‑99 (generator stock) and
-      T½(Mo‑99)=65.941 h, λ≈0.010517 h<sup>−1</sup>. After 24 hours,
-      A(24)=10000·e<sup>−0.010517·24</sup>≈7850 MBq. The code uses hours
-      consistently and converts dates/times to elapsed hours prior to applying
-      Math.exp(−λt).
+      Technetium-99m is the workhorse of nuclear medicine due to its ideal 140 keV gamma emission. If you elute a generator and obtain A₀ = 1000 mCi of Tc-99m, after exactly one half-life (6 hours), you will have A(6) = 1000 · e<sup>−(0.115)·6</sup> ≈ 500 mCi. In the code below, we rigorously convert all timestamps to elapsed hours before applying the exponential multiplier to ensure deterministic, reproducible dosimetry.
     </>
   ),
   codeStep1: `// ─── STEP 1: Compute decay constant (lambda) ───────────────────────────
-// Using Math.LN2 (0.6931471…) instead of 0.693 for full floating-point
-// precision — matters when you chain many decay calculations.
-const halfLifeHours = ISOTOPES[isotope].halfLife;
-const lambda = Math.LN2 / halfLifeHours;    // λ = ln(2) / T½
+// We use the full IEEE 754 precision of Math.LN2 to avoid compounding
+// rounding errors during recursive half-life calculations.
+const halfLifeHours = ISOTOPES[isotope].halfLife; // e.g., 6.01 for Tc-99m
+const lambda = Math.LN2 / halfLifeHours;          // λ = ln(2) / T½
 
-// ─── STEP 2: Elapsed time in hours ─────────────────────────────────────
-// Date.now() returns Unix timestamp in milliseconds; we need hours.
+// ─── STEP 2: Calculate elapsed time in hours ───────────────────────────
 const timeDiffHours = (Date.now() - startTime) / (1000 * 60 * 60);
 
-// ─── STEP 3: Apply exponential decay ───────────────────────────────────
-// Math.exp() is the native e^x function — faster and more accurate than
-// approximation polynomials.
+// ─── STEP 3: Apply the exponential decay operator ──────────────────────
 const currentActivity = initialActivity * Math.exp(-lambda * timeDiffHours);
 
-// ─── STEP 4: Clamp to zero (activity can never go negative) ────────────
+// ─── STEP 4: Prevent mathematically invalid negative activities ────────
 const safeActivity = Math.max(currentActivity, 0);`,
   codeStep2Title:
-    "INVERSE CALCULATION — Find time when activity reaches target",
-  codeStep2: `// If you know A₀, A_target and λ, solve for t:
-//   A_target = A₀ · e^(−λt)
-//   ln(A_target / A₀) = −λt
-//   t = −ln(A_target / A₀) / λ
-//     = ln(A₀ / A_target) / λ    (same thing, flipped sign)
+    "REVERSE ENGINEERING TIME — Predicting Decay Targets",
+  codeStep2: `// To find exactly WHEN a source will reach a safe target activity:
+//   A_target = A₀ · e^(−λt)  ==>  t = ln(A₀ / A_target) / λ
+// This algorithm drives our Decay Clock interface.
 
-const hoursToTarget = Math.log(targetActivity / initialActivity) / (-lambda);
-// Note: Math.log() is ln() in JavaScript
-// hoursToTarget will be positive when targetActivity < initialActivity
-
-const targetTimestamp = startTime + hoursToTarget * 3600 * 1000; // back to ms`,
+const hoursToTarget = Math.log(initialActivity / targetActivity) / lambda;
+const targetTimestamp = startTime + (hoursToTarget * 3600 * 1000);`,
 };
 
 export const SECTION_2_INVERSE_SQUARE = {
@@ -81,51 +56,33 @@ export const SECTION_2_INVERSE_SQUARE = {
   formula: <>H&#775; = Γ · A / d²</>,
   notes: (
     <>
-      <strong>Formal derivation and unit bookkeeping:</strong>
+      <strong>Geometric Spreading of Radiation:</strong>
       <br />
-      The idealized point source radiates energy uniformly over a sphere: the
-      surface area scales as 4πd². The dose rate (per unit activity) can be
-      summarized by a gamma constant Γ which incorporates emission yield, energy
-      deposition per photon and detector response. In traditional tables Γ is
-      reported in R·cm²/mCi·hr. For clarity:
+      For an isotropic point source (like a small vial of radiotracer), gamma photons are emitted evenly in all directions. As they travel, they spread across the surface area of a sphere (4πd²). Consequently, the photon flux density—and therefore the dose rate—decreases proportionally to the square of the distance from the source.
       <br />
-      <ul>
-        <li>A [mCi] × Γ [R·cm²/mCi·hr] / d² [cm²] → R/hr</li>
-        <li>To convert to mR/hr multiply R/hr × 1000</li>
-      </ul>
-      In the code we accept user distances in metres and convert to centimetres
-      before applying Γ; the factor `10` used previously reconciles the
-      mixed-unit arithmetic when working with d in metres and Γ in cm²
-      (implementation note: using a single coherent unit system eliminates magic
-      factors and reduces subtle bugs).
       <br />
-      <strong>Limitations:</strong> The Γ·A/d² formula ignores scattering
-      (buildup) and finite source extent. Use this as a conservative
-      point‑source estimate for quick planning; for construction design or tight
-      regulatory compliance, compute build‑up factors or run deterministic/Monte
-      Carlo transport (MCNP, Geant4) that include scattering and secondary
-      photon production.
+      <strong>The Specific Gamma Ray Constant (Γ):</strong>
+      <br />
+      Every isotope has a unique Γ constant linking activity and distance to the resulting exposure rate. For <strong>Tc-99m</strong>, Γ is approximately 0.78 R·cm²/mCi·hr. This constant accounts for the yield and energy of the 140 keV photons. 
+      <br />
+      <br />
+      <strong>Crucial Code Implementation Details:</strong>
+      <br />
+      The algorithm standardizes all user inputs (meters, inches, feet) into centimeters. We calculate the exposure rate in R/hr and immediately scale it by 1000 to display the standard clinical metric: mR/hr. This law proves that stepping just one step back from a syringe dramatically slashes your occupational dose.
     </>
   ),
-  code: `// ─── STEP 1: Normalize activity to mCi ─────────────────────────────────
-// Gamma constants are tabulated per mCi.
-// 1 mCi = 37 MBq  →  1 MBq = 1/37 mCi
+  code: `// ─── STEP 1: Standardize Activity to milliCuries (mCi) ─────────────────
 const MBQ_TO_MCI = 1 / 37;
-const activityInMci = unit === "MBq"
-  ? inputValue * MBQ_TO_MCI
-  : inputValue;
+const activityInMci = unit === "MBq" ? inputValue * MBQ_TO_MCI : inputValue;
 
-// ─── STEP 2: Normalize distance to meters ──────────────────────────────
-// User may enter distance in cm, ft, or inches.
-// Always convert to meters before squaring (our formula uses m²).
-const CONVERSIONS = { m: 1, cm: 100, ft: 3.28084, in: 39.3701 };
-const distanceM = distance / CONVERSIONS[distanceUnit];
+// ─── STEP 2: Standardize Distance to Centimeters ───────────────────────
+const distanceInMeters = distance / DISTANCE_CONVERSIONS[distanceUnit];
+const distanceCm = distanceInMeters * 100;
 
-// ─── STEP 3: Compute unshielded dose rate ──────────────────────────────
-// Formula: H_dot (mR/hr) = (Gamma × 10 × A_mCi) / d²(m)
-// Factor 10 reconciles the R·cm²/mCi·hr gamma constant with distance in m.
-const unshieldedDoseRate =
-  (gammaConstant * 10 * activityInMci) / (distanceM ** 2);`,
+// ─── STEP 3: Execute Inverse Square Law Calculation ────────────────────
+// H_dot = (Gamma × A) / d²
+const doseRperHr = (gammaConstant * activityInMci) / (distanceCm * distanceCm);
+const unshieldedDoseRate = doseRperHr * 1000; // Convert R/hr to mR/hr`,
 };
 
 export const SECTION_3_SHIELDING = {
@@ -138,112 +95,74 @@ export const SECTION_3_SHIELDING = {
   ),
   notes: (
     <>
-      <strong>Conceptual foundations and practical application:</strong>
+      <strong>The Half-Value Layer (HVL):</strong>
       <br />
-      The Half-Value Layer (HVL) is the thickness of a material required to
-      reduce the primary narrow-beam intensity by one half. The exponential
-      attenuation form I=I₀e<sup>−μx</sup> provides a continuous parameter μ
-      (linear attenuation coefficient) where HVL = ln(2)/μ. When using HVL-based
-      estimates, remember:
+      While distance geometrically spreads radiation, shielding physically absorbs it. The Half-Value Layer (HVL) is the exact thickness of a specific material required to attenuate the radiation intensity to 50% of its original value. This creates an exponential decay of intensity through matter: I = I₀ · (0.5)<sup>n</sup>, where 'n' is the number of HVLs.
       <br />
-      <ul>
-        <li>The HVL depends on photon energy and material composition;</li>
-        <li>
-          The narrow-beam approximation neglects scattered photons (build-up);
-        </li>
-        <li>
-          For PPE and localized shielding, HVL estimates are useful and
-          conservative when combined with measured dose-rate checks.
-        </li>
-      </ul>
       <br />
-      <strong>Worked example:</strong>
-      For Pb at 140 keV (Tc‑99m), HVL ≈ 0.30 mm. To achieve a 100× reduction you
-      need n = log₂(100) ≈ 6.64 HVLs → thickness x ≈ 6.64×0.30 ≈ 1.99 mm Pb. Use
-      material-specific HVL tables (NIST XCOM or NCRP tabulations) for accurate
-      per‑isotope values.
+      <strong>Shielding Tc-99m:</strong>
       <br />
-      <strong>When to use detailed transport:</strong>
-      For complex geometries, mixed spectra (PET annihilation + prompt
-      emissions), or when scattering contributes significantly to dose at the
-      point of interest, deterministic (ANISN, discrete-ordinates) or stochastic
-      (MCNP/Geant4) modelling is the recommended approach.
+      Because <strong>Tc-99m</strong> emits relatively low-energy gamma rays (140 keV), it is remarkably easy to shield compared to PET isotopes like F-18 (511 keV). The HVL of lead for Tc-99m is a mere 0.3 mm. Therefore, standard 2.0 mm lead glass on a hot-lab bench provides over 6 HVLs of attenuation, effectively slashing the dose by a factor of 2<sup>6.6</sup> (&gt;98% reduction). 
+      <br />
+      <br />
+      <strong>Algorithmic Strategy:</strong>
+      <br />
+      The codebase reverses this logic. By defining a target safe dose, we divide the unshielded dose by the target dose to find the required attenuation factor. Taking the base-2 logarithm (<code>Math.log2</code>) yields the exact number of HVLs required, which is then multiplied by the material-specific HVL constant to output the required thickness in millimeters.
     </>
   ),
-  code: `// ─── STEP 1: Required attenuation factor ───────────────────────────────
-// How many times must intensity be reduced to reach the target dose rate?
+  code: `// ─── STEP 1: Determine Required Attenuation Factor ─────────────────────
+// How many times must the intensity be cut in half?
 const requiredAttenuation = unshieldedDoseRate / targetDoseRate;
-// Example: 500 mR/hr unshielded, target 2 mR/hr → factor = 250
 
-// ─── STEP 2: Number of HVLs needed ─────────────────────────────────────
-// I = I₀ × (1/2)^n  →  solve for n:
-//   requiredAttenuation = (1/2)^(-n) = 2^n
-//   n = log₂(requiredAttenuation)
+// ─── STEP 2: Calculate Number of HVLs ──────────────────────────────────
+// n = log₂(Required Attenuation)
 const numHVLs = Math.log2(requiredAttenuation);
-// Math.log2 is native log base-2 — available in all modern browsers (ES6)
 
-// ─── STEP 3: Convert HVL count to thickness ────────────────────────────
-// Multiply by the HVL (mm) of each material.
-// HVL values are isotope-specific (from NCRP 151, NIST XCOM data).
-const leadThicknessMm     = numHVLs * isotopeData.hvl.lead;
-const concreteThicknessMm = numHVLs * isotopeData.hvl.concrete;
-const tungstenThicknessMm = numHVLs * isotopeData.hvl.tungsten;
-const glassMm             = numHVLs * isotopeData.hvl.glass;
-
-// ─── STEP 4: PPE attenuation — reverse HVL for a known thickness ───────
-// Given a PPE item's known Pb-equivalent thickness, how much does it
-// reduce the dose rate?
-const attenuatedDoseRate = (thicknessMm, hvlMm) => {
-  const n      = thicknessMm / hvlMm;         // # of HVLs the PPE provides
-  return unshieldedDoseRate * Math.pow(0.5, n); // dose after PPE
-};`,
+// ─── STEP 3: Translate HVLs to Physical Material Thickness ─────────────
+// Multiply the number of HVLs by the material's specific HVL constant (mm)
+const leadThicknessMm     = numHVLs * isotopeData.hvl.lead;      // Lead (Pb)
+const tungstenThicknessMm = numHVLs * isotopeData.hvl.tungsten;  // Tungsten (W)
+const glassThicknessMm    = numHVLs * isotopeData.hvl.glass;     // Lead Glass`,
 };
 
 export const SECTION_4_PPE = {
   number: "4.0",
-  title: "PERSONAL PROTECTIVE EQUIPMENT (PPE)",
+  title: "MANDATORY PROTECTIVE PROTOCOLS (PPE)",
   clinicalRationale: (
     <>
-      In nuclear medicine hot-lab settings — where staff handle
-      multi-gigabecquerel activities of I-131, Tc-99m generators, PET
-      radiopharmaceuticals (F-18, Ga-68), and therapeutic Lu-177 — personnel
-      protective equipment provides meaningful dose reduction even though it
-      does <em>not</em> eliminate exposure. The principle of
-      <strong style={{ color: "#00ff00" }}> ALARA</strong> (As Low As Reasonably
-      Achievable) mandates their consistent use.
+      <strong>MANDATORY DIRECTIVE:</strong> In the radiopharmacy and hot-lab, shielding is not optional; it is the cornerstone of ALARA (As Low As Reasonably Achievable). When dispensing or manipulating unshielded multi-gigabecquerel activities of <strong>Tc-99m</strong>, a <strong>lead apron is absolutely mandatory.</strong> Even a standard 0.35 mm lead-equivalent apron provides over one full Half-Value Layer for Tc-99m, instantly cutting your core body dose by more than half. Furthermore, thyroid shields are critical to prevent cumulative dose to radiosensitive endocrine tissue during high-volume elution workflows.
     </>
   ),
   ppeTableNote: (
     <>
-      * Attenuation for Tc-99m (140 keV primary + scatter). Values decrease for
-      higher-energy isotopes (e.g., I-131 at 364 keV, F-18 at 511 keV
-      annihilation photons). Consult the shielding calculator results for
-      isotope-specific PPE dose estimates.
+      * Note: These attenuation values are calibrated specifically for the 140 keV emission of Tc-99m. Higher energy isotopes (e.g., F-18, I-131) will penetrate PPE with significantly greater efficiency. Always utilize the dynamic calculator to verify protection factors for specific radionuclides.
     </>
   ),
-  codeTitle: "PPE IMPLEMENTATION IN THIS TOOL",
-  code: `// Each PPE item has a DISTINCT, clinically-validated lead-equivalent
-// thickness. All values verified against NCRP 168, ICRP 139, AAPM TG-191.
+  codeTitle: "DYNAMIC PPE ATTENUATION ALGORITHM",
+  code: `// The algorithm computes the exact dose reduction for mandatory PPE
+// based on established Pb-equivalent thicknesses from NCRP 168.
 
-const PPE_SPECS = {
-  apronStandard: 0.35,  // mm Pb-eq — NCRP Report 168 (2021)
-  apronHotlab:   0.50,  // mm Pb-eq — IAEA Safety Series No. 40
-  thyroid:       0.35,  // mm Pb-eq — ICRP Publ. 139, mandatory hot-lab
-  glasses:       0.75,  // mm Pb-eq — AAPM TG-191 (2021)
-  glassShield:   2.00,  // mm Pb-eq — standard bench/syringe shield
+const calculateAttenuatedDose = (thicknessMm, hvlMm) => {
+  if (hvlMm <= 0 || thicknessMm <= 0) return unshieldedDoseRate;
+  
+  // Calculate the number of Half-Value Layers the PPE provides
+  const numHVLs = thicknessMm / hvlMm;
+  
+  // Apply the exponential attenuation formula: Dose = Dose₀ * (0.5)^n
+  return unshieldedDoseRate * Math.pow(0.5, numHVLs);
 };
 
-// For each item: dose = unshielded × (0.5)^(thickness / HVL_material)
-Object.entries(PPE_SPECS).forEach(([item, thickMm]) => {
-  const n = thickMm / isotopeHVL_lead;          // HVL count
-  const reducedDose = unshielded * (0.5 ** n);   // attenuated dose rate
-  console.log(\`\${item}: \${reducedDose.toFixed(3)} mR/hr\`);
-});`,
+const PPE_SCENARIOS = {
+  apronStandard: calculateAttenuatedDose(0.35, data.hvl.lead), // MUST WEAR!
+  apronHotlab:   calculateAttenuatedDose(0.50, data.hvl.lead), // High activity
+  thyroid:       calculateAttenuatedDose(0.35, data.hvl.lead), // Mandatory
+  glassShield:   calculateAttenuatedDose(2.00, data.hvl.lead), // Bench shield
+};`,
 };
 
 export const SECTION_5_REFERENCES = {
   number: "5.0",
   title: "REFERENCES (2020 – 2026)",
   intro:
-    "All sources are high-trust: IAEA, ICRP, NCRP, AAPM official publications, or peer-reviewed journals.",
+    "All algorithms, constants, and safety protocols are rigorously aligned with international standards: IAEA, ICRP, NCRP, and AAPM official publications.",
 };

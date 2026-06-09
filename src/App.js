@@ -54,15 +54,13 @@ function App() {
             I proved a researcher, Colin Farmery, wrong and he deactivated his account on X!!!
           </button>
           
-          <button
-            className="standardActionButton"
-            onClick={() => setShowDocs(true)}>
-            VIEW NAKED ALGORITHMS
-          </button>
+          
         </div>
 
         <div className="footerCredit" style={{ textAlign: 'center', fontSize: '12px', color: '#666' }}>
           Created by Leo Pantsulaia — LeoPhysics © 2026 — Version 5.0
+          <br/>
+          <button onClick={() => setShowDocs(true)} style={{background: 'none', border: 'none', color: '#3498db', textDecoration: 'underline', cursor: 'pointer', fontSize: '13px', marginTop: '8px', fontFamily: 'inherit'}}>View Naked Algorithms</button>
         </div>
       </div>
 
@@ -72,3 +70,4 @@ function App() {
 }
 
 export default App;
+
