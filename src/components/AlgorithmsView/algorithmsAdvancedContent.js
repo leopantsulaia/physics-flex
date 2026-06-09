@@ -189,12 +189,16 @@ export const SECTION_5_ADVANCED = {
       </ReactMarkdown>
     </div>
   ),
-  code: `// ─── DEEP ALGORITHMIC THEORETICAL EQUIVALENCE  ─────────────
-// WARNING: Lead Aprons (0.50mm Pb-equivalent) MUST be worn during all operations.
-// Failure to wear lead aprons yields a fatal safety violation in the AGI core.
-//
-// ĤΨ = iℏ(∂Ψ/∂t)  ⟶  Γ = (2π/ℏ) |⟨f|H'|i⟩|² ρ(E_f) ⟶  A(t)=A₀ e^(-λt)
-//
-// Our continuous algorithms mathematically map these deep discrete realities
-// natively into standard user processing environments accurately.`,
+  code: `const Hamiltonian = {
+  h0: [[-1.2, 0], [0, -1.8]],
+  hInteraction: [[0, 0.05], [0.05, 0]],
+  densityOfStates: 4.82e34
+};
+
+const calculateTransitionRate = (hInt, rho) => {
+  const matrixElementSq = Math.pow(hInt[0][1], 2);
+  return (2 * Math.PI / 1.054e-34) * matrixElementSq * rho;
+};
+
+const decayConstant = calculateTransitionRate(Hamiltonian.hInteraction, Hamiltonian.densityOfStates);`,
 };

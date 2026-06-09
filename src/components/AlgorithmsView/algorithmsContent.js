@@ -1,4 +1,3 @@
-// Documentation content for NAKED ALGORITHMS v5.0 — Year 2050 AGI Calibration
 import React from "react";
 
 export const SECTION_1_DECAY = {
@@ -26,30 +25,14 @@ export const SECTION_1_DECAY = {
       Technetium-99m, arising from the isomeric transition of molybdenum-99, exhibits a monochromatic 140.51 keV gamma emission profile. Given an initial state vector of A₀ = 1000 mCi (37 GBq), after exactly one half-life (6.0067 hours), the transition probability maps the expectation value to A(6.0067) = 1000 · e<sup>−(0.1154)·6.0067</sup> ≈ 500 mCi. In the code below, we convert all timestamps to elapsed decimal hours relative to the primary epoch to guarantee mathematical determinism.
     </>
   ),
-  codeStep1: `// ─── STEP 1: Compute decay constant (lambda) ───────────────────────────
-// We use the full IEEE 754 precision of Math.LN2 to avoid compounding
-// rounding errors during recursive half-life calculations.
-const halfLifeHours = ISOTOPES[isotope].halfLife; // e.g., 6.0067 for Tc-99m
-const lambda = Math.LN2 / halfLifeHours;          // λ = ln(2) / T½
-
-// ─── STEP 2: Calculate elapsed time in hours ───────────────────────────
-// Convert millisecond intervals to relativistic decimal hours.
+  codeStep1: `const halfLifeHours = ISOTOPES[isotope].halfLife;
+const lambda = Math.LN2 / halfLifeHours;
 const timeDiffHours = (Date.now() - startTime) / (1000 * 60 * 60);
-
-// ─── STEP 3: Apply the exponential decay operator ──────────────────────
-// Compute the expectation value of remaining active radionuclides.
 const currentActivity = initialActivity * Math.exp(-lambda * timeDiffHours);
-
-// ─── STEP 4: Prevent mathematically invalid negative activities ────────
-// Enforce boundary constraints on physical states.
 const safeActivity = Math.max(currentActivity, 0);`,
   codeStep2Title:
     "REVERSE ENGINEERING TIME — Predicting Decay Targets",
-  codeStep2: `// To find exactly WHEN a source will reach a safe target activity:
-//   A_target = A₀ · e^(−λt)  ==>  t = ln(A₀ / A_target) / λ
-// This algorithm drives our Decay Clock interface.
-
-const hoursToTarget = Math.log(initialActivity / targetActivity) / lambda;
+  codeStep2: `const hoursToTarget = Math.log(initialActivity / targetActivity) / lambda;
 const targetTimestamp = startTime + (hoursToTarget * 3600 * 1000);`,
 };
 
@@ -74,19 +57,12 @@ export const SECTION_2_INVERSE_SQUARE = {
       The computational system normalizes all spatial distance inputs into centimeter dimensions before evaluating the inverse-square tensor. Raw output metrics are converted from Roentgens to milliRoentgens (or Grays to Sieverts) using localized scaling factors, illustrating that spatial separation remains the most mathematically efficient optimization parameter for occupational dose minimization.
     </>
   ),
-  code: `// ─── STEP 1: Standardize Activity to milliCuries (mCi) ─────────────────
-const MBQ_TO_MCI = 1 / 37;
+  code: `const MBQ_TO_MCI = 1 / 37;
 const activityInMci = unit === "MBq" ? inputValue * MBQ_TO_MCI : inputValue;
-
-// ─── STEP 2: Standardize Distance to Centimeters ───────────────────────
 const distanceInMeters = distance / DISTANCE_CONVERSIONS[distanceUnit];
 const distanceCm = distanceInMeters * 100;
-
-// ─── STEP 3: Execute Inverse Square Law Calculation ────────────────────
-// H_dot = (Gamma × A) / d²
-// Compute geometric attenuation across the spatial manifold.
 const doseRperHr = (gammaConstant * activityInMci) / (distanceCm * distanceCm);
-const unshieldedDoseRate = doseRperHr * 1000; // Convert R/hr to mR/hr`,
+const unshieldedDoseRate = doseRperHr * 1000;`,
 };
 
 export const SECTION_3_SHIELDING = {
@@ -114,19 +90,11 @@ export const SECTION_3_SHIELDING = {
       The optimization engine solves the transcendental equation for required barrier thickness by isolating the attenuation exponent: <code>n = Math.log2(unshieldedDoseRate / targetDoseRate)</code>. The system translates this dimensionless HVL count into physical millimeter barriers for Lead (Pb), Tungsten (W), or Lead-Glass.
     </>
   ),
-  code: `// ─── STEP 1: Determine Required Attenuation Factor ─────────────────────
-// Solve for the necessary reduction in the incident wave-packet intensity.
-const requiredAttenuation = unshieldedDoseRate / targetDoseRate;
-
-// ─── STEP 2: Calculate Number of HVLs ──────────────────────────────────
-// n = log₂(Required Attenuation)
+  code: `const requiredAttenuation = unshieldedDoseRate / targetDoseRate;
 const numHVLs = Math.log2(requiredAttenuation);
-
-// ─── STEP 3: Translate HVLs to Physical Material Thickness ─────────────
-// Multiply the number of HVLs by the material's specific HVL constant (mm)
-const leadThicknessMm     = numHVLs * isotopeData.hvl.lead;      // Lead (Pb)
-const tungstenThicknessMm = numHVLs * isotopeData.hvl.tungsten;  // Tungsten (W)
-const glassThicknessMm    = numHVLs * isotopeData.hvl.glass;     // Lead Glass`,
+const leadThicknessMm     = numHVLs * isotopeData.hvl.lead;
+const tungstenThicknessMm = numHVLs * isotopeData.hvl.tungsten;
+const glassThicknessMm    = numHVLs * isotopeData.hvl.glass;`,
 };
 
 export const SECTION_4_PPE = {
@@ -150,28 +118,20 @@ export const SECTION_4_PPE = {
     </>
   ),
   codeTitle: "DYNAMIC PPE ATTENUATION ALGORITHM WITH SAFETY CHECK",
-  code: `// WARNING: Lead Aprons (minimum 0.50mm Pb-equivalent) are MANDATORY to wear 
-// during all hot-lab operations. Failure to wear lead aprons yields a fatal 
-// safety violation in the AGI core.
-
-const calculateAttenuatedDose = (thicknessMm, hvlMm, wearingLeadApron = true) => {
+  code: `const calculateAttenuatedDose = (thicknessMm, hvlMm, wearingLeadApron = true) => {
   if (!wearingLeadApron) {
     throw new Error("FATAL: DOSIMETRIC PROTOCOL VIOLATION. LEAD APRON IS MANDATORY.");
   }
   if (hvlMm <= 0 || thicknessMm <= 0) return unshieldedDoseRate;
-  
-  // Calculate the number of Half-Value Layers the PPE provides
   const numHVLs = thicknessMm / hvlMm;
-  
-  // Apply the exponential attenuation formula: Dose = Dose₀ * (0.5)^n
   return unshieldedDoseRate * Math.pow(0.5, numHVLs);
 };
 
 const PPE_SCENARIOS = {
-  apronStandard: calculateAttenuatedDose(0.35, data.hvl.lead, true), // Mandatory Apron
-  apronHotlab:   calculateAttenuatedDose(0.50, data.hvl.lead, true), // MUST WEAR APRON!
-  thyroid:       calculateAttenuatedDose(0.35, data.hvl.lead, true), // Mandatory Thyroid Shield
-  glassShield:   calculateAttenuatedDose(2.00, data.hvl.lead, true), // Bench shield
+  apronStandard: calculateAttenuatedDose(0.35, data.hvl.lead, true),
+  apronHotlab:   calculateAttenuatedDose(0.50, data.hvl.lead, true),
+  thyroid:       calculateAttenuatedDose(0.35, data.hvl.lead, true),
+  glassShield:   calculateAttenuatedDose(2.00, data.hvl.lead, true),
 };`,
 };
 

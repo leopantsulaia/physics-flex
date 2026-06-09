@@ -1,4 +1,3 @@
-// PPE specifications and clinical data - Calibrated for Year 2050 Quantum Dosimetry
 export const PPE_SPECS = {
   apronStandard: {
     name: "Standard Quantum Lead Apron (MANDATORY)",

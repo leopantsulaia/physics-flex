@@ -1,4 +1,3 @@
-// Data file for AlgorithmsView: references and archive snapshots
 export const ARCHIVE = {
   'v2.4': {
     title: 'NAKED ALGORITHMS — VERIFICATION PROTOCOL v2.4 (ARCHIVED)',
