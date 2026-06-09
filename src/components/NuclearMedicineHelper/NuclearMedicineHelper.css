@@ -1,0 +1,21 @@
+.nuclearHelperContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background: var(--card-bg, #1e1e1e);
+  border-radius: 12px;
+  color: white;
+}
+
+.nuclearHelperContainer h2 {
+  margin: 0 0 10px 0;
+  text-align: center;
+  color: var(--accent-color, #4facfe);
+}
+
+.nuclearHelperContent {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

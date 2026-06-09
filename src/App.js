@@ -1,27 +1,34 @@
 import React, { useState } from "react";
-import { ShieldingCalculator } from "./components/ShieldingCalculator/ShieldingCalculator";
-import { DecayClock } from "./components/DecayClock/DecayClock";
+import { NuclearMedicineHelper } from "./components/NuclearMedicineHelper/NuclearMedicineHelper";
 import TwitterPost from "./components/TwitterPost/TwitterPost";
 import { AlgorithmsView } from "./components/AlgorithmsView/AlgorithmsView";
 import PeriodicTable from "./components/PeriodicTable";
 import "./App.css";
 
 function App() {
-  const [activeTab, setActiveTab] = useState("shielding");
+  const [activeTab, setActiveTab] = useState("periodic");
   const [showDocs, setShowDocs] = useState(false);
 
   return (
     <div className="appWrapper">
-      <button
-        className="hugeActionButton"
-        onClick={() => setActiveTab("twitter")}>
-        LATEST SCIENTIFIC BREAKTHROUGH & ANALYSIS 🚀
-      </button>
+      <nav className="appNav" style={{ marginTop: "20px" }}>
+        <button
+          className={`navButton ${activeTab === "periodic" ? "active" : ""}`}
+          onClick={() => setActiveTab("periodic")}>
+          Periodic Table
+        </button>
+        <button
+          className={`navButton ${activeTab === "nuclear" ? "active" : ""}`}
+          onClick={() => setActiveTab("nuclear")}>
+          Nuclear Medicine Technologist Automatic Counter (Helper)
+        </button>
+      </nav>
+
       <div className="announcementBanner">
         <div className="announcementContent">
           <p>
             <strong>
-              VERSION 3.2 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE
+              VERSION 5.0 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE
               FIXED SOON.
             </strong>
           </p>
@@ -41,32 +48,22 @@ function App() {
         </div>
       </div>
 
-      <nav className="appNav">
-        <button
-          className={`navButton ${activeTab === "shielding" ? "active" : ""}`}
-          onClick={() => setActiveTab("shielding")}>
-          Shielding Calculator
-        </button>
-        <button
-          className={`navButton ${activeTab === "decay" ? "active" : ""}`}
-          onClick={() => setActiveTab("decay")}>
-          Decay Clock
-        </button>
-        <button
-          className={`navButton ${activeTab === "periodic" ? "active" : ""}`}
-          onClick={() => setActiveTab("periodic")}>
-          Periodic Table
-        </button>
-      </nav>
-
       <div className="appContent">
-        {activeTab === "shielding" && <ShieldingCalculator />}
-        {activeTab === "decay" && <DecayClock />}
         {activeTab === "periodic" && <PeriodicTable />}
+        {activeTab === "nuclear" && <NuclearMedicineHelper />}
         {activeTab === "twitter" && <TwitterPost />}
       </div>
+      
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '30px 0' }}>
+        <button
+          className="hugeActionButton"
+          onClick={() => setActiveTab("twitter")}>
+          I proved a researcher, Colin Farmery, wrong and he deactivated his account on X!!!
+        </button>
+      </div>
+
       <div className="footerCredit">
-        Created by Leo Pantsulaia — LeoPhysics © 2026 — Version 3.2
+        Created by Leo Pantsulaia — LeoPhysics © 2026 — Version 5.0
       </div>
 
       {showDocs && <AlgorithmsView onClose={() => setShowDocs(false)} />}
