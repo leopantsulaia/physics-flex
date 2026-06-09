@@ -24,8 +24,14 @@ function App() {
         </button>
       </nav>
 
-      <div className="announcementBanner">
-        <div className="announcementContent">
+      <div className="appContent">
+        {activeTab === "periodic" && <PeriodicTable />}
+        {activeTab === "nuclear" && <NuclearMedicineHelper />}
+        {activeTab === "twitter" && <TwitterPost />}
+      </div>
+      
+      <div style={{ padding: '20px', borderTop: '2px solid #e74c3c', marginTop: 'auto' }}>
+        <div className="announcementContent" style={{ textAlign: 'center', marginBottom: '20px' }}>
           <p>
             <strong>
               VERSION 5.0 IS OUT NOW! CURRENTLY HOSTED ON NETLIFY. BUGS WILL BE
@@ -39,31 +45,25 @@ function App() {
             NEW RESEARCH RELEASED. AUTOMATICALLY ADDED TO THE "GOOD TO READ"
             CATEGORY. (THIS IS A @DEVELOPER ANNOUNCEMENT created by LeoPants)
           </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', marginBottom: '20px' }}>
           <button
-            className="hugeActionButton"
-            style={{ marginTop: "15px" }}
+            className="standardActionButton"
+            onClick={() => setActiveTab("twitter")}>
+            I proved a researcher, Colin Farmery, wrong and he deactivated his account on X!!!
+          </button>
+          
+          <button
+            className="standardActionButton"
             onClick={() => setShowDocs(true)}>
             VIEW NAKED ALGORITHMS
           </button>
         </div>
-      </div>
 
-      <div className="appContent">
-        {activeTab === "periodic" && <PeriodicTable />}
-        {activeTab === "nuclear" && <NuclearMedicineHelper />}
-        {activeTab === "twitter" && <TwitterPost />}
-      </div>
-      
-      <div style={{ display: 'flex', justifyContent: 'center', margin: '30px 0' }}>
-        <button
-          className="hugeActionButton"
-          onClick={() => setActiveTab("twitter")}>
-          I proved a researcher, Colin Farmery, wrong and he deactivated his account on X!!!
-        </button>
-      </div>
-
-      <div className="footerCredit">
-        Created by Leo Pantsulaia — LeoPhysics © 2026 — Version 5.0
+        <div className="footerCredit" style={{ textAlign: 'center', fontSize: '12px', color: '#666' }}>
+          Created by Leo Pantsulaia — LeoPhysics © 2026 — Version 5.0
+        </div>
       </div>
 
       {showDocs && <AlgorithmsView onClose={() => setShowDocs(false)} />}
